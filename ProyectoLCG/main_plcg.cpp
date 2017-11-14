@@ -6,6 +6,7 @@
 //*************	 Hernandez Gomez Mauricio Alejandro		******//
 //*************	 Meneses Cornejo Kevin Osmar			******//
 //************************************************************//
+//comentario de prueba
 
 #include "texture.h"
 #include "figuras.h"
