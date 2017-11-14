@@ -6,6 +6,7 @@
 //*************	 Hernandez Gomez Mauricio Alejandro		******//
 //*************	 Meneses Cornejo Kevin Osmar			******//
 //************************************************************//
+//Prueba para ver si github acomoda los cambios en la rama master
 //comentario de prueba
 
 #include "texture.h"
