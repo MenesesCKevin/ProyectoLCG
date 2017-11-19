@@ -101,7 +101,7 @@ CTexture px;	//Cielo
 CTexture nz;	//Cielo
 CTexture py;	//Cielo
 CTexture ny;	//piso
-CTexture text2;
+CTexture fachada;
 CTexture text3;	//Flecha
 CTexture text4;	//Pavimento
 CTexture text5;	//Pasto01
@@ -261,6 +261,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	ny.LoadTGA("Texturas/ny.tga");
 	ny.BuildGLTexture();
 	ny.ReleaseImage();
+
+	fachada.LoadTGA("Texturas/fachada.tga");
+	fachada.BuildGLTexture();
+	fachada.ReleaseImage();
 	
 
 	casita._3dsLoad("Dollshouse.3ds");
@@ -302,7 +306,15 @@ void EstructuraCasa()
 	glPushMatrix();	//Pared planta 1 de 4.05 m frontal
 		glTranslatef(2.025, 1.15, -0.1);
 		glScalef(4.05, 2.3, 0.2);
-		cubo.prisma2(0.0, 0.0);	
+		cubo.prisma2(0.0,0.0);
+	glPopMatrix();
+
+	glPushMatrix();	//fachada
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	glTranslatef(6.4, 6.2,0.22);
+	fig2.plano(12.5,13.3,0.2,fachada.GLindex);
+	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
@@ -605,8 +617,8 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPushMatrix();		
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
-				glTranslatef(0,25,0);
-				fig1.skybox(80.0, 50.0, 80.0,ny.GLindex,nx.GLindex,pz.GLindex,px.GLindex,nz.GLindex,py.GLindex);
+				glTranslatef(0,50,0);
+				fig1.skybox(250.0, 100.0, 250.0,ny.GLindex,nx.GLindex,pz.GLindex,px.GLindex,nz.GLindex,py.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
