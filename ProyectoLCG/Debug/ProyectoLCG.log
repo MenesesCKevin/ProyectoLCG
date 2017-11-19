@@ -1,4 +1,17 @@
-﻿  main_plcg.cpp
-c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\main_plcg.cpp(789): warning C4390: ';': se encontró una instrucción controlada vacía; ¿es esa la intención?
-  ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\ProyectoLCG-master\ProyectoLCG\Debug\ProyectoLCG.exe
-  ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\ProyectoLCG-master\ProyectoLCG\Debug\ProyectoLCG.pdb (Partial PDB)
+﻿  figuras.cpp
+c:\users\k322\documents\github\proyectolcg\proyectolcg\figuras.cpp(20): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
+c:\users\k322\documents\github\proyectolcg\proyectolcg\figuras.cpp(90): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
+c:\users\k322\documents\github\proyectolcg\proyectolcg\figuras.cpp(301): warning C4101: 'theta': variable local sin referencia
+c:\users\k322\documents\github\proyectolcg\proyectolcg\figuras.cpp(301): warning C4101: 'phi': variable local sin referencia
+CModel.lib(_3dsloader.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(_3dsloader.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(CModel.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(CModel.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(CObject.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(CObject.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(GFILoader.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(GFILoader.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(GLRender.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(GLRender.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(HandleStream.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(HandleStream.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(imageload.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(imageload.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(MATRIX4X4.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(MATRIX4X4.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(VECTOR3D.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(VECTOR3D.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+CModel.lib(VECTOR4D.obj) : warning LNK4099: no se encontr¾ PDB 'vc70.pdb' con 'CModel.lib(VECTOR4D.obj)' o en 'C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\vc70.pdb'; se vincularß el objeto sin tener en cuenta informaci¾n de depuraci¾n
+  ProyectoLCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\ProyectoLCG.exe
+  ProyectoLCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\ProyectoLCG.pdb (Partial PDB)

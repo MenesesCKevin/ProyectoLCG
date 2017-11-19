@@ -95,7 +95,12 @@ GLfloat m_spec2[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb2[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s2[] = {22};
 
-CTexture text1;	//Cielo
+CTexture nx;	//Cielo
+CTexture pz;	//Cielo
+CTexture px;	//Cielo
+CTexture nz;	//Cielo
+CTexture py;	//Cielo
+CTexture ny;	//piso
 CTexture text2;
 CTexture text3;	//Flecha
 CTexture text4;	//Pavimento
@@ -107,7 +112,7 @@ CTexture tree;
 CFiguras fig1;
 CFiguras fig2;
 CFiguras fig3;
-CFiguras fig4;	//Pasto01
+CFiguras fig4;	//Pasto011
 CFiguras fig5;	//Casa01
 CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
@@ -233,13 +238,30 @@ void InitGL ( GLvoid )     // Inicializamos parametros
     //glBlendFunc(GL_SRC_ALPHA,GL_ONE);			// Set The Blending Function For Translucency
     //glColor4f(1.0f, 1.0f, 1.0f, 0.5); 
     
-    text1.LoadBMP("Texturas/01.bmp");
-	text1.BuildGLTexture();
-	text1.ReleaseImage();
+    nx.LoadTGA("Texturas/nx.tga");
+	nx.BuildGLTexture();
+	nx.ReleaseImage();
 
-	text3.LoadTGA("city/arrow.tga");
-	text3.BuildGLTexture();
-	text3.ReleaseImage();	
+	pz.LoadTGA("Texturas/pz.tga");
+	pz.BuildGLTexture();
+	pz.ReleaseImage();
+
+	px.LoadTGA("Texturas/px.tga");
+	px.BuildGLTexture();
+	px.ReleaseImage();
+
+	nz.LoadTGA("Texturas/nz.tga");
+	nz.BuildGLTexture();
+	nz.ReleaseImage();
+
+	py.LoadTGA("Texturas/py.tga");
+	py.BuildGLTexture();
+	py.ReleaseImage();
+
+	ny.LoadTGA("Texturas/ny.tga");
+	ny.BuildGLTexture();
+	ny.ReleaseImage();
+	
 
 	casita._3dsLoad("Dollshouse.3ds");
 
@@ -253,24 +275,6 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	//NEW Crear una lista de dibujo
 	ciudad_display_list = createDL();
 
-	//NEW Iniciar variables de KeyFrames
-	/*for(int i=0; i<MAX_FRAMES; i++)
-	{
-		KeyFrame[i].posX =0;
-		KeyFrame[i].posY =0;
-		KeyFrame[i].posZ =0;
-		KeyFrame[i].incX =0;
-		KeyFrame[i].incY =0;
-		KeyFrame[i].incZ =0;
-		KeyFrame[i].rotRodIzq =0;
-		KeyFrame[i].rotInc =0;
-		KeyFrame[i].giroMonito =0;
-		KeyFrame[i].giroMonitoInc =0;
-		KeyFrame[i].giroBrazo =0;
-		KeyFrame[i].giroBrazoInc = 0;
-
-	}*/
-	//NEW//////////////////NEW//////////////////NEW//////////////////
 
 }
 
@@ -577,7 +581,6 @@ void EstructuraCasa()
 			cubo.prisma2(0.0, 0.0);
 		glPopMatrix();
 
-
 	glPopMatrix();
 
 
@@ -602,107 +605,15 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		glPushMatrix();		
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
-				glTranslatef(0,60,0);
-				fig1.skybox(200.0, 200.0, 200.0,text1.GLindex);
+				glTranslatef(0,25,0);
+				fig1.skybox(80.0, 50.0, 80.0,ny.GLindex,nx.GLindex,pz.GLindex,px.GLindex,nz.GLindex,py.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
-
+			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
-				glEnable ( GL_COLOR_MATERIAL );
-					glColor3f(1, 1, 1);
-					//glScalef(0.5, 0.5, 0.5);
-					//monito();
-					glCallList(ciudad_display_list);
-					glTranslatef(posX, posY, posZ);
-					glRotatef(giroMonito, 0, 1, 0);
-				glDisable ( GL_COLOR_MATERIAL );
+				EstructuraCasa();
 			glPopMatrix();
-
-			/*
-			glPushMatrix(); //Casa M0delo 3ds
-				glTranslatef(-12.0,0.0,-9.0);
-				glScalef(0.3,0.3,0.3);
-				casita.GLrender(NULL,_SHADED, 1);
-			glPopMatrix();
-
-			glPushMatrix(); //Casa M0delo 3ds
-				glTranslatef(-32.0,0.0,-9.0);
-				glScalef(0.7,0.7,0.7);
-				oldhouse.GLrender(NULL,_SHADED, 1);
-			glPopMatrix();
-
-
-			
-
-			glPushMatrix();
-				glRotatef(270, 0, 1, 0);
-				glScalef(0.3, 0.3, 0.3);
-				
-
-
-				glTranslatef(movKitX, movKitY, movKitZ);
-				glRotatef(rotKit, 0, 1, 0);
-
-				kit.GLrender(NULL,_SHADED,1.0); //Dibujamos la carroceria
-				//llanta.GLrender(NULL,_SHADED,1.0);
-
-				//Colocar aquí las llantas
-				
-				glPushMatrix(); //llanta frontal der
-					glTranslatef(-6,-1,7.5);
-					glRotatef(-rotTires,1,0,0);
-					glRotatef(girallanta, 0.0, 0.0, 1.0);
-					llanta.GLrender(NULL,_SHADED,1.0);
-				glPopMatrix();
-
-				glPushMatrix(); //llanta frontal izq
-					glTranslatef(6,-1,7.5);	
-					glRotatef(180,0,1,0);
-					glRotatef(rotTires,1,0,0);
-					llanta.GLrender(NULL,_SHADED,1.0);
-				glPopMatrix();
-				
-				glPushMatrix(); //llanta trasera der
-					glTranslatef(-6,-1,-9.5);	
-					glRotatef(-rotTires,1,0,0);
-					llanta.GLrender(NULL,_SHADED,1.0);
-				glPopMatrix();
-
-				glPushMatrix(); //llanta trasera izq
-					glTranslatef(6,-1,-9.5);	
-					glRotatef(180,0,1,0);
-					glRotatef(rotTires,1,0,0);
-					llanta.GLrender(NULL,_SHADED,1.0);
-				glPopMatrix();
-
-			glPopMatrix();
-			
-
-			glPushMatrix(); //Flecha
-				glScalef(7,0.1,7);
-				glDisable(GL_LIGHTING);
-				fig3.prisma_anun(text3.GLindex, 0);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();
-
-
-			glPushMatrix();
-				glTranslatef(-30, 0, 10);
-			glPopMatrix();
-
-			glColor3f(1.0,1.0,1.0);
-
-		glPopMatrix(); 
-	*/
-		
-			glTranslatef(0.0, -10.0, 10.0);
-
-
-		glPushMatrix();
-			EstructuraCasa();
 		glPopMatrix();
-
-
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 		glDisable(GL_LIGHTING);
@@ -1060,54 +971,15 @@ void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas e
   glutPostRedisplay();
 }
 
-void menuKeyFrame(int id)
-{
-	switch (id)
-	{
-	case 0:	//Save KeyFrame
-		if (FrameIndex<MAX_FRAMES)
-		{
-			saveFrame();
-		}
-		break;
-
-	case 1:	//Play animation
-		if (play == false && FrameIndex >1)
-		{
-
-			resetElements();
-			//First Interpolation
-			interpolation();
-
-			play = true;
-			playIndex = 0;
-			i_curr_steps = 0;
-		}
-		else
-		{
-			play = false;
-		}
-		break;
-
-
-	}
-}
-
-
-void menu(int id)
-{
-
-}
 
 int main ( int argc, char** argv )   // Main Function
 {
-	int submenu;
 
   glutInit            (&argc, argv); // Inicializamos OpenGL
   glutInitDisplayMode (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
   glutInitWindowSize  (500, 500);	// Tamaño de la Ventana
   glutInitWindowPosition (0, 0);	//Posicion de la Ventana
-  glutCreateWindow    ("Practica 12"); // Nombre de la Ventana
+  glutCreateWindow    ("Proyecto LCG"); // Nombre de la Ventana
   //glutFullScreen     ( );         // Full Screen
   InitGL ();						// Parametros iniciales de la aplicacion
   glutDisplayFunc     ( display );  //Indicamos a Glut función de dibujo
@@ -1115,16 +987,7 @@ int main ( int argc, char** argv )   // Main Function
   glutKeyboardFunc    ( keyboard );	//Indicamos a Glut función de manejo de teclado
   glutSpecialFunc     ( arrow_keys );	//Otras
   glutIdleFunc		  ( animacion );
-
-  submenu = glutCreateMenu(menuKeyFrame);
-  glutAddMenuEntry("Guardar KeyFrame", 0);
-  glutAddMenuEntry("Reproducir Animacion", 1);
-  glutCreateMenu(menu);
-  glutAddSubMenu("Animacion Monito", submenu);
-
-  glutAttachMenu(GLUT_RIGHT_BUTTON);
-
-  glutMainLoop        ( );          // 
+  glutMainLoop();          // 
 
   return 0;
 }
