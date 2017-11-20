@@ -114,6 +114,11 @@ CTexture text6;	//Casa01
 CTexture carcel;
 CTexture craneos;
 CTexture halo;
+CTexture metal;
+CTexture cadena;
+CTexture cabecera;
+CTexture metal2;
+
 
 CTexture tree;
 
@@ -314,6 +319,22 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	halo.LoadTGA("Texturas/halo.tga");
 	halo.BuildGLTexture();
 	halo.ReleaseImage();
+
+	metal.LoadTGA("Texturas/metal.tga");
+	metal.BuildGLTexture();
+	metal.ReleaseImage();
+
+	cadena.LoadTGA("Texturas/cadena.tga");
+	cadena.BuildGLTexture();
+	cadena.ReleaseImage();
+
+	cabecera.LoadTGA("Texturas/guillotina.tga");
+	cabecera.BuildGLTexture();
+	cabecera.ReleaseImage();
+
+	metal2.LoadTGA("Texturas/metal2.tga");
+	metal2.BuildGLTexture();
+	metal2.ReleaseImage();
 
 	casita._3dsLoad("Dollshouse.3ds");
 
@@ -526,6 +547,7 @@ void EstructuraCasa()
 		glScalef(12.7, 2.3, 0.2);
 		cubo.prisma2(0.0, muro.GLindex, 4);
 	glPopMatrix();
+
 
 	glPushMatrix();	//pared jardin derecha
 		glTranslatef(12.6, 1.15, -20.5);
@@ -750,7 +772,7 @@ void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
 	glPushMatrix();
 		glTranslatef(6.5, 0.5, -22);
 		glScalef(1.8, 1.0, 0.8);
-		cubo.prisma2(0.0, mesaT.GLindex, 2);
+		cubo.prisma2(0.0, mesaT.GLindex, 1);
 	glPopMatrix();
 
 	//Halo del sol en la mesa de sacrificios
@@ -875,35 +897,35 @@ void antorcha()
 		glPushMatrix();							//Cuerpo de la anotrcha
 			glTranslatef(0.0, 1.0, 0.0);
 			glScalef(0.05, 2.0, 0.05);
-			cubo.prisma2(0.0, madera.GLindex, 1);
+			cubo.prisma2(0.0, metal.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();							//Varilla 1
 			glTranslatef(-0.1, 1.9, 0.0);
 			glRotatef(45, 0.0, 0.0, 1.0);
 			glScalef(0.02, 0.2, 0.02);
-			cubo.prisma2(0.0, madera.GLindex, 1);
+			cubo.prisma2(0.0, metal.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();							//Varilla 2
 			glTranslatef(0.1, 1.9, 0.0);
 			glRotatef(-45, 0.0, 0.0, 1.0);
 			glScalef(0.02, 0.2, 0.02);
-			cubo.prisma2(0.0, madera.GLindex, 1);
+			cubo.prisma2(0.0, metal.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();							//Varilla 3
 			glTranslatef(0.0, 1.9, -0.1);
 			glRotatef(45, 1.0, 0.0, 0.0);
 			glScalef(0.02, 0.02, 0.2);
-			cubo.prisma2(0.0, madera.GLindex, 1);
+			cubo.prisma2(0.0, metal.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();							//Varilla 4
 			glTranslatef(0.0, 1.9, 0.1);
 			glRotatef(-45, 1.0, 0.0, 1.0);
 			glScalef(0.02, 0.02, 0.2);
-			cubo.prisma2(0.0, madera.GLindex, 1);
+			cubo.prisma2(0.0, metal.GLindex, 1);
 		glPopMatrix();
 
 		glPushMatrix();
@@ -924,6 +946,94 @@ void antorcha()
 		glPopMatrix();
 
 	glPopMatrix();
+}
+
+void guillotina()
+{
+	glPushMatrix();
+		glPushMatrix();							//base1
+			glTranslatef(0.0, 0.05, 0.0);
+			glScalef(0.4, 0.1, 1.0);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//base2
+			glTranslatef(1.0, 0.05, 0.0);
+			glScalef(0.4, 0.1, 1.0);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//Columna 1
+			glTranslatef(0.0, 1.1, 0.0);
+			glScalef(0.2, 2.0, 0.2);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//Columna 2
+			glTranslatef(1.0, 1.1, 0.0);
+			glScalef(0.2, 2.0, 0.2);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//techo de guillotina
+			glTranslatef(0.5, 2.2, 0.0);
+			glScalef(1.2, 0.2, 0.2);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//cadenas
+			glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, 0.1);
+			glTranslatef(0.5, 2.0, 0.0);
+			glRotatef(90.0, 0.0, 0.0, 1.0);
+			fig2.plano(0.4, 0.6, 0.1, cadena.GLindex, 1);
+			glDisable(GL_ALPHA_TEST);
+		glPopMatrix();
+
+		glPushMatrix();							//parte superior de la hoja
+			glTranslatef(0.5, 1.7, 0.0);
+			glScalef(0.6, 0.05, 0.05);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//cabecera de la guillotina
+			glTranslatef(0.5, 0.7, 0.0);
+			glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, 0.1);
+			fig2.plano(1.5, 1.0, 0.1, cabecera.GLindex, 1);
+			glDisable(GL_ALPHA_TEST);
+		glPopMatrix();
+
+		glPushMatrix();							//cama de guillotina
+			glTranslatef(0.5, 0.6, -0.85);
+			glScalef(0.6, 0.1, 1.5);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//bases de la cama de guillotina
+			glTranslatef(0.25, 0.3, -1.55);
+			glScalef(0.05, 0.6, 0.05);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//bases de la cama de guillotina
+			glTranslatef(0.75, 0.3, -1.55);
+			glScalef(0.05, 0.6, 0.05);
+			cubo.prisma2(0.0, metal.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();							//hoja de la guillotina
+			glTranslatef(0.5, 1.55, 0.05);
+			glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, 0.1);
+			fig2.hoja(0.3, 0.6, 0.1, metal2.GLindex, 1);
+			glDisable(GL_ALPHA_TEST);
+		glPopMatrix();
+
+		
+
+	glPopMatrix();
+
 }
 
 void display ( void )   // Creamos la funcion donde se dibuja
@@ -993,6 +1103,55 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					glTranslated(8.0, 0.0, -22.0);
 					antorcha();
 				glPopMatrix();
+
+				glPushMatrix();	//cadenas
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					glTranslatef(5.0, 1.2, -23.7);
+					glRotatef(90.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.8, 2.0, 0.1, cadena.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
+
+
+
+				glPushMatrix();						//guillotina
+					glTranslatef(10.0, 0.5, -20.0);
+					glRotatef(-90.0, 0.0, 1.0, 0.0);
+					guillotina();
+				glPopMatrix();
+
+				glPushMatrix();						//suelo para la guillotina
+					glTranslatef(10.5, 0.25, -19.5);
+					glScalef(3.0, 0.5, 3.0);
+					cubo.prisma2(0.0, ny.GLindex, 1);
+				glPopMatrix();
+
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(9.2, 0.5, -18.2);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
+
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(9.2, 0.5, -20.8);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
+
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(11.8, 0.5, -18.2);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
+
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(11.8, 0.5, -20.8);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
+
 
 
 			glPopMatrix();
