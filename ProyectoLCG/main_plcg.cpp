@@ -94,7 +94,7 @@ GLfloat m_spec2[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb2[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s2[] = {22};
 
-
+CTexture madera; //madera general
 CTexture puerta1; //Puertas de la sala de tortura
 CTexture mesaT; //Mesa del cuarto de tortura
 CTexture muro; //Muros en general
@@ -123,6 +123,7 @@ CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
 
 CFiguras cubo;
+CFiguras cilindro;
 
 //Figuras de 3D Studio
 CModel kit;
@@ -130,7 +131,7 @@ CModel llanta;
 CModel casita;
 CModel oldhouse;
 
-//Animación del coche
+//AnimaciÃ³n del coche
 float angRot = 0.0;
 float movKitX = 0.0;
 float movKitY = 4.0;
@@ -298,6 +299,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	puerta1.LoadTGA("Texturas/puerta1.tga");
 	puerta1.BuildGLTexture();
 	puerta1.ReleaseImage();
+
+	madera.LoadTGA("Texturas/madera.tga");
+	madera.BuildGLTexture();
+	madera.ReleaseImage();
 	
 
 	casita._3dsLoad("Dollshouse.3ds");
@@ -329,7 +334,7 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
 
 void EstructuraCasa()
 {
-	/////////////////////////////////////////////////////////Planta 1 parte A baño, lavabo, cuarto de maquinas
+	/////////////////////////////////////////////////////////Planta 1 parte A baÃ±o, lavabo, cuarto de maquinas
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glTranslatef(0.1, 1.15, -2.875);
 		glScalef(0.2, 2.3, 5.75);
@@ -456,13 +461,13 @@ void EstructuraCasa()
 		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
-	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baño y cuarto de servicio
+	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baÃ±o y cuarto de servicio
 		glTranslatef(2.0, 1.15, -0.76);
 		glScalef(0.2, 2.3, 1.52);
 		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
-	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baño y cuarto lavado
+	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baÃ±o y cuarto lavado
 		glTranslatef(1.1, 1.15, -2.5);
 		glScalef(2.0, 2.3, 0.2);
 		cubo.prisma2(0.0, muro.GLindex);
@@ -720,7 +725,7 @@ void EstructuraCasa()
 		glPopMatrix();
 
 
-		glPushMatrix();	//Pared planta 1 de 1.5m entre baño y escaleras
+		glPushMatrix();	//Pared planta 1 de 1.5m entre baÃ±o y escaleras
 			glTranslatef(0.8, 1.15, 1.85);
 			glScalef(0.2, 2.3, 1.5);
 			cubo.prisma2(0.0, muro.GLindex);
@@ -737,7 +742,8 @@ void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
 		glScalef(1.8, 1.0, 0.8);
 		cubo.prisma2(0.0, mesaT.GLindex);
 	glPopMatrix();
-	//carcel
+  
+  //carcel
 		glPushMatrix();
 			glTranslatef(2.1, 1.2, -18.6);
 			glRotatef(180, 0.0, 1.0, 0.0);
@@ -746,6 +752,102 @@ void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
 			fig2.plano(2.1,3.9,0.1,carcel.GLindex,2);
 			glDisable(GL_ALPHA_TEST);
 		glPopMatrix();
+}
+
+void silla()
+{
+	glPushMatrix();
+
+		glPushMatrix();		//Pata delantera izquierda
+			glTranslatef(0.0, 0.25, 0.0);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata delantera derecha
+			glTranslatef(0.2, 0.25, 0.0);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata trasera izquierda
+			glTranslatef(0.0, 0.25, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Pata trasera derecha
+			glTranslatef(0.2, 0.25, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();					//Asiento
+			glTranslatef(0.1, 0.5, 0.1);
+			glScalef(0.25, 0.05, 0.25);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Respaldo izquierdo
+			glTranslatef(0.0, 0.75, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+
+		glPushMatrix();						//Respaldo derecho
+			glTranslatef(0.2, 0.75, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Respaldo central
+			glTranslatef(0.1, 0.85, 0.2);
+			glScalef(0.2, 0.05, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Respaldo central
+			glTranslatef(0.1, 0.75, 0.2);
+			glScalef(0.2, 0.05, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+
+	glPopMatrix();
+}
+
+void mesa_ovalada()
+{
+	glPushMatrix();						//pata 1
+		glTranslatef(0.0, 0.35, 0.0);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//pata 2
+		glTranslatef(1.0, 0.35, 0.0);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//pata 3
+		glTranslatef(1.0, 0.35, 0.6);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//pata 4
+		glTranslatef(0.0, 0.35, 0.6);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//tapa
+		glTranslatef(0.5, 0.7, 0.3);
+		cilindro.cilindro(0.7, 0.05, 20, madera.GLindex);
+	glPopMatrix();
+	
 }
 
 void display ( void )   // Creamos la funcion donde se dibuja
@@ -772,8 +874,27 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
+
+
 				EstructuraCasa();
 				cuartoTortura();
+
+				glPushMatrix();
+					glTranslatef(7.0,0.0,-20.0);
+					silla();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(5.0, 0.0, -7.0);
+					mesa_ovalada();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(3.0, 0.0, -7.0);
+					cubo.cono(1.0, 0.5, 4, madera.GLindex);
+				glPopMatrix();
+
+
 			glPopMatrix();
 		glPopMatrix();
 	glPopMatrix();
@@ -1002,13 +1123,13 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case 'O':		//  
 		case 'o':
-				g_fanimacion^= true; //Activamos/desactivamos la animacíon
+				g_fanimacion^= true; //Activamos/desactivamos la animacÃ­on
 				circuito = false;
 			break;
 
 		case 'i':		//  
 		case 'I':
-				circuito^= true; //Activamos/desactivamos la animacíon
+				circuito^= true; //Activamos/desactivamos la animacÃ­on
 				g_fanimacion = false;
 			break;
 
@@ -1139,14 +1260,14 @@ int main ( int argc, char** argv )   // Main Function
 
   glutInit            (&argc, argv); // Inicializamos OpenGL
   glutInitDisplayMode (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
-  glutInitWindowSize  (500, 500);	// Tamaño de la Ventana
+  glutInitWindowSize  (500, 500);	// TamaÃ±o de la Ventana
   glutInitWindowPosition (0, 0);	//Posicion de la Ventana
   glutCreateWindow    ("Proyecto LCG"); // Nombre de la Ventana
   //glutFullScreen     ( );         // Full Screen
   InitGL ();						// Parametros iniciales de la aplicacion
-  glutDisplayFunc     ( display );  //Indicamos a Glut función de dibujo
-  glutReshapeFunc     ( reshape );	//Indicamos a Glut función en caso de cambio de tamano
-  glutKeyboardFunc    ( keyboard );	//Indicamos a Glut función de manejo de teclado
+  glutDisplayFunc     ( display );  //Indicamos a Glut funciÃ³n de dibujo
+  glutReshapeFunc     ( reshape );	//Indicamos a Glut funciÃ³n en caso de cambio de tamano
+  glutKeyboardFunc    ( keyboard );	//Indicamos a Glut funciÃ³n de manejo de teclado
   glutSpecialFunc     ( arrow_keys );	//Otras
   glutIdleFunc		  ( animacion );
   glutMainLoop();          // 
