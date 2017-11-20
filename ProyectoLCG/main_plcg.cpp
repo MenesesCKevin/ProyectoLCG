@@ -109,6 +109,8 @@ CTexture fachadaDI;	//fachada de los laterales
 CTexture techo;	//techo
 CTexture text5;	//Pasto01
 CTexture text6;	//Casa01
+CTexture carcel;
+CTexture craneos;
 
 CTexture tree;
 
@@ -277,6 +279,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	fachadaDI.BuildGLTexture();
 	fachadaDI.ReleaseImage();
 
+	craneos.LoadTGA("Texturas/craneos.tga");
+	craneos.BuildGLTexture();
+	craneos.ReleaseImage();
+
 	muro.LoadTGA("Texturas/muros.tga");
 	muro.BuildGLTexture();
 	muro.ReleaseImage();
@@ -284,6 +290,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	mesaT.LoadTGA("Texturas/mesa.tga");
 	mesaT.BuildGLTexture();
 	mesaT.ReleaseImage();
+
+	carcel.LoadTGA("Texturas/carcel.tga");
+	carcel.BuildGLTexture();
+	carcel.ReleaseImage();
 
 	puerta1.LoadTGA("Texturas/puerta1.tga");
 	puerta1.BuildGLTexture();
@@ -297,7 +307,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	oldhouse.GLIniTextures();
 	oldhouse.ReleaseTextureImages();
 	
-	objCamera.Position_Camera(0,14.0f,13.0f, 0,2.5f,0, 0, 1, 0);
+	objCamera.Position_Camera(4,6.0f,2.0f, -4.0,0.0f,0, 0, 1, 0);
 
 	//NEW Crear una lista de dibujo
 	ciudad_display_list = createDL();
@@ -320,7 +330,7 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
 void EstructuraCasa()
 {
 	/////////////////////////////////////////////////////////Planta 1 parte A baño, lavabo, cuarto de maquinas
-glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
+	glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glTranslatef(0.1, 1.15, -2.875);
 		glScalef(0.2, 2.3, 5.75);
 		cubo.prisma2(0.0, muro.GLindex);
@@ -331,7 +341,7 @@ glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glScalef(4.05, 2.3, 0.2);
 		cubo.prisma2(0.0,muro.GLindex);
 	glPopMatrix();
-
+	/*********************INICIO EXTERIOR************************************/
 	glPushMatrix();	//Fachada izquierda
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.1);
@@ -387,42 +397,39 @@ glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 	glPopMatrix();
 
 	glPushMatrix();	//techo superior izquierdo 3
-	glTranslatef(6, 10.8, -12.1);
-	glRotatef(270.0, 0.0, 1.0, 0.0);
-	glRotatef(-90, 1.0, 0.0, 0.0);
-	fig2.plano(11, 24.4, 0.2, techo.GLindex, 20);
+		glTranslatef(6, 10.8, -12.1);
+		glRotatef(270.0, 0.0, 1.0, 0.0);
+		glRotatef(-90, 1.0, 0.0, 0.0);
+		fig2.plano(11, 24.4, 0.2, techo.GLindex, 20);
 	glPopMatrix();
 
 	glPushMatrix();	//techo superior izquierda 4
-	glTranslatef(5.6, 11.2, -12.1);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(-170, 1.0, 0.0, 0.0);
-	fig2.plano(2.6, 24.4, 0.2, techo.GLindex, 6);
+		glTranslatef(5.6, 11.2, -12.1);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glRotatef(-170, 1.0, 0.0, 0.0);
+		fig2.plano(2.6, 24.4, 0.2, techo.GLindex, 6);
 	glPopMatrix();
 
 	glPushMatrix();	//techo superior derecha  4
-	glTranslatef(6.5, 12.5, -12.0);
-	glRotatef(270.0, 0.0, 1.0, 0.0);
-	glRotatef(-90, 1.0, 0.0, 0.0);
-	fig2.plano(1.2, 24.4, 0.2, techo.GLindex, 6);
+		glTranslatef(6.5, 12.5, -12.0);
+		glRotatef(270.0, 0.0, 1.0, 0.0);
+		glRotatef(-90, 1.0, 0.0, 0.0);
+		fig2.plano(1.2, 24.4, 0.2, techo.GLindex, 6);
 	glPopMatrix();
 
 	glPushMatrix();	//techo superior derecha 5
-	glTranslatef(7.2, 11.2, -12.1);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(-10, 1.0, 0.0, 0.0);
-	fig2.plano(2.6, 24.4, 0.2, techo.GLindex, 6);
+		glTranslatef(7.2, 11.2, -12.1);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glRotatef(-10, 1.0, 0.0, 0.0);
+		fig2.plano(2.6, 24.4, 0.2, techo.GLindex, 6);
 	glPopMatrix();
 
 	glPushMatrix();	//techo superior derecha 1
-	glTranslatef(11.8, 11.5, -12.1);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(-90, 1.0, 0.0, 0.0);
-	fig2.plano(0.8, 24.4, 0.2, techo.GLindex, 5);
+		glTranslatef(11.8, 11.5, -12.1);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glRotatef(-90, 1.0, 0.0, 0.0);
+		fig2.plano(0.8, 24.4, 0.2, techo.GLindex, 5);
 	glPopMatrix();
-
-	
-	
 
 	glPushMatrix();	//fachada frontal
 		glEnable(GL_ALPHA_TEST);
@@ -441,6 +448,7 @@ glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 
+	/********************FIN EXTERIOR******************************/
 
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
 		glTranslatef(4.15, 1.15, -2.875);
@@ -725,11 +733,19 @@ void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
 {
 	//Mesa de piedra
 	glPushMatrix();
-	glTranslatef(6.5, 0.5, -22);
-	glScalef(1.8, 1.0, 0.8);
-	cubo.prisma2(0.0, mesaT.GLindex);
+		glTranslatef(6.5, 0.5, -22);
+		glScalef(1.8, 1.0, 0.8);
+		cubo.prisma2(0.0, mesaT.GLindex);
 	glPopMatrix();
-
+	//carcel
+		glPushMatrix();
+			glTranslatef(2.1, 1.2, -18.6);
+			glRotatef(180, 0.0, 1.0, 0.0);
+			glEnable(GL_ALPHA_TEST);
+			glAlphaFunc(GL_GREATER, 0.1);
+			fig2.plano(2.1,3.9,0.1,carcel.GLindex,2);
+			glDisable(GL_ALPHA_TEST);
+		glPopMatrix();
 }
 
 void display ( void )   // Creamos la funcion donde se dibuja
