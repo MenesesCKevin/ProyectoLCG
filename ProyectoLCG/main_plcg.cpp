@@ -94,7 +94,7 @@ GLfloat m_spec2[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb2[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s2[] = {22};
 
-
+CTexture madera; //madera general
 CTexture puerta1; //Puertas de la sala de tortura
 CTexture mesaT; //Mesa del cuarto de tortura
 CTexture muro; //Muros en general
@@ -121,6 +121,7 @@ CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
 
 CFiguras cubo;
+CFiguras cilindro;
 
 //Figuras de 3D Studio
 CModel kit;
@@ -288,6 +289,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	puerta1.LoadTGA("Texturas/puerta1.tga");
 	puerta1.BuildGLTexture();
 	puerta1.ReleaseImage();
+
+	madera.LoadTGA("Texturas/madera.tga");
+	madera.BuildGLTexture();
+	madera.ReleaseImage();
 	
 
 	casita._3dsLoad("Dollshouse.3ds");
@@ -725,9 +730,105 @@ void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
 {
 	//Mesa de piedra
 	glPushMatrix();
-	glTranslatef(6.5, 0.5, -22);
-	glScalef(1.8, 1.0, 0.8);
-	cubo.prisma2(0.0, mesaT.GLindex);
+		glTranslatef(6.5, 0.5, -22);
+		glScalef(1.8, 1.0, 0.8);
+		cubo.prisma2(0.0, mesaT.GLindex);
+	glPopMatrix();
+
+}
+
+void silla()
+{
+	glPushMatrix();
+
+		glPushMatrix();		//Pata delantera izquierda
+			glTranslatef(0.0, 0.25, 0.0);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata delantera derecha
+			glTranslatef(0.2, 0.25, 0.0);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();							//Pata trasera izquierda
+			glTranslatef(0.0, 0.25, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Pata trasera derecha
+			glTranslatef(0.2, 0.25, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();					//Asiento
+			glTranslatef(0.1, 0.5, 0.1);
+			glScalef(0.25, 0.05, 0.25);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Respaldo izquierdo
+			glTranslatef(0.0, 0.75, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+
+		glPushMatrix();						//Respaldo derecho
+			glTranslatef(0.2, 0.75, 0.2);
+			glScalef(0.05, 0.5, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Respaldo central
+			glTranslatef(0.1, 0.85, 0.2);
+			glScalef(0.2, 0.05, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+		glPushMatrix();						//Respaldo central
+			glTranslatef(0.1, 0.75, 0.2);
+			glScalef(0.2, 0.05, 0.05);
+			cubo.prisma2(0.0, madera.GLindex);
+		glPopMatrix();
+
+
+	glPopMatrix();
+}
+
+void mesa_ovalada()
+{
+	glPushMatrix();						//pata 1
+		glTranslatef(0.0, 0.35, 0.0);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//pata 2
+		glTranslatef(1.0, 0.35, 0.0);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//pata 3
+		glTranslatef(1.0, 0.35, 0.6);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//pata 4
+		glTranslatef(0.0, 0.35, 0.6);
+		glScalef(0.05, 0.7, 0.05);
+		cubo.prisma2(0.0, madera.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();						//tapa
+		glTranslatef(0.5, 0.7, 0.3);
+		cilindro.cilindro(0.7, 0.05, 20, madera.GLindex);
 	glPopMatrix();
 
 }
@@ -756,8 +857,27 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
+
+
 				EstructuraCasa();
 				cuartoTortura();
+
+				glPushMatrix();
+					glTranslatef(7.0,0.0,-20.0);
+					silla();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(5.0, 0.0, -7.0);
+					mesa_ovalada();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(3.0, 0.0, -7.0);
+					cubo.cono(1.0, 0.5, 4, madera.GLindex);
+				glPopMatrix();
+
+
 			glPopMatrix();
 		glPopMatrix();
 	glPopMatrix();
