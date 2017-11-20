@@ -663,6 +663,17 @@ glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 	glPopMatrix();
 }
 
+void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
+{
+	//Mesa de piedra
+	glPushMatrix();
+	glTranslatef(6.5, 0.5, -22);
+	glScalef(1.8, 1.0, 0.8);
+	cubo.prisma2(0.0, mesaT.GLindex);
+	glPopMatrix();
+
+}
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -688,6 +699,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 				EstructuraCasa();
+				cuartoTortura();
 			glPopMatrix();
 		glPopMatrix();
 	glPopMatrix();
