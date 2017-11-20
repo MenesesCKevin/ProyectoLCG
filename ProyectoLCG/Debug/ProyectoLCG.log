@@ -1,4 +1,4 @@
 ﻿  main_plcg.cpp
-c:\users\k322\documents\github\proyectolcg\proyectolcg\main_plcg.cpp(712): warning C4390: ';': se encontró una instrucción controlada vacía; ¿es esa la intención?
-  ProyectoLCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\ProyectoLCG.exe
-  ProyectoLCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\ProyectoLCG.pdb (Partial PDB)
+c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\main_plcg.cpp(718): warning C4390: ';': se encontró una instrucción controlada vacía; ¿es esa la intención?
+  ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\ProyectoLCG-master\ProyectoLCG\Debug\ProyectoLCG.exe
+  ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\ProyectoLCG-master\ProyectoLCG\Debug\ProyectoLCG.pdb (Partial PDB)

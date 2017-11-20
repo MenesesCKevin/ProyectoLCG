@@ -95,6 +95,8 @@ GLfloat m_spec2[] = { 0.0, 0.0, 0.0, 1.0 };				// Specular Light Values
 GLfloat m_amb2[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s2[] = {22};
 
+
+CTexture muro; //Muros en general
 CTexture nx;	//Cielo
 CTexture pz;	//Cielo
 CTexture px;	//Cielo
@@ -265,6 +267,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	fachada.LoadTGA("Texturas/fachada.tga");
 	fachada.BuildGLTexture();
 	fachada.ReleaseImage();
+
+	muro.LoadTGA("Texturas/muros.tga");
+	muro.BuildGLTexture();
+	muro.ReleaseImage();
 	
 
 	casita._3dsLoad("Dollshouse.3ds");
@@ -300,13 +306,13 @@ void EstructuraCasa()
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glTranslatef(0.1, 1.15, -2.875);
 		glScalef(0.2, 2.3, 5.75);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 4.05 m frontal
 		glTranslatef(2.025, 1.15, -0.1);
 		glScalef(4.05, 2.3, 0.2);
-		cubo.prisma2(0.0,0.0);
+		cubo.prisma2(0.0,muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//fachada
@@ -320,43 +326,43 @@ void EstructuraCasa()
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
 		glTranslatef(4.15, 1.15, -2.875);
 		glScalef(0.2, 2.3, 5.75);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baño y cuarto de servicio
 		glTranslatef(2.0, 1.15, -0.76);
 		glScalef(0.2, 2.3, 1.52);
-		cubo.prisma2(0.0, 0.0);	
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.52 m separacion entre baño y cuarto lavado
 		glTranslatef(1.1, 1.15, -2.5);
 		glScalef(2.0, 2.3, 0.2);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
 		glTranslatef(1.1, 1.15, -3.25);
 		glScalef(0.2, 2.3, 1.5);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.5 m separacion rara del cuarto de lavado
 		glTranslatef(3.25, 1.15, -3.9);
 		glScalef(2.0, 2.3, 0.2);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 1.85 m separacion cuarto de maquinas y lavado
 		glTranslatef(2.75, 1.15, -4.825);
 		glScalef(0.2, 2.3, 1.85);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//Pared planta 1 de 0.8 m de lado de la entrada al cuarto de maquinas
 		glTranslatef(3.7, 1.15, -5.65);
 		glScalef(0.8, 2.3, 0.2);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	//Paredes del jardin y pared del estacinamiento
@@ -364,32 +370,32 @@ void EstructuraCasa()
 	glPushMatrix();	//estacionamiento parte derecha
 		glTranslatef(12.6, 1.15, -4.4);
 		glScalef(0.2, 2.3, 9.0);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//pared jardin izquierda
 		glTranslatef(0.1, 1.15, -20.5);
 		glScalef(0.2, 2.3, 7.0);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//pared jardin superior
 		glTranslatef(6.35, 1.15, -24);
 		glScalef(12.7, 2.3, 0.2);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();	//pared jardin derecha
 		glTranslatef(12.6, 1.15, -20.5);
 		glScalef(0.2, 2.3, 7.0);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 	glPopMatrix();
 
 
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(200.0f, 0.0f, 0.0f);
+	glVertex3f(200.0f, 0.0f,muro.GLindex);
 	glEnd();
 
 	glBegin(GL_LINES);
@@ -416,7 +422,7 @@ void EstructuraCasa()
 		glPushMatrix();	//Pared planta 1 de 4.4 m del patio servicio
 			glTranslatef(0.1, 1.15, -2.2);
 			glScalef(0.2, 2.3, 4.4);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();	
 
 		glTranslatef(0.0, 0.0, -5.75); //Cambio mi centro momentaneamente
@@ -424,49 +430,49 @@ void EstructuraCasa()
 		glPushMatrix();	//Pared planta 1  de 1.35 m de la bodega lado derecho
 			glTranslatef(0.1, 1.15, -5.075);
 			glScalef(0.2, 2.3, 1.35);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1.35 m de la bodega lado izquierdo
 			glTranslatef(1.1, 1.15, -5.075);
 			glScalef(0.2, 2.3, 1.35);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1 m de la bodega lado superior
 			glTranslatef(0.6, 1.15, -5.75);
 			glScalef(1.2, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1.35 m de la alacena lado derecho
 			glTranslatef(2.2, 1.15, -5.075);
 			glScalef(0.2, 2.3, 1.35);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 1 m de la alacena parte superior
 			glTranslatef(2.7, 1.15, -5.75);
 			glScalef(1.2, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1  de 2 m de la alacena parte inferior
 			glTranslatef(3.15, 1.15, -4.5);
 			glScalef(2.1, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
 			glTranslatef(4.15, 1.15, -4.5);
 			glScalef(0.2, 2.3, 2.7);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//continuacion de pared
 		glTranslatef(4.15, 1.15, -6.45);
 		glScalef(0.2, 2.3, 1.2);
-		cubo.prisma2(0.0, 0.0);
+		cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -481,85 +487,85 @@ void EstructuraCasa()
 		glPushMatrix();	//Pared planta 1 de 4.4 m cocina lado izquierdo
 			glTranslatef(0.0, 1.15, -2.3);
 			glScalef(0.2, 2.3, 4.4);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 1m continiacion del cocina lado izquierdo
 			glTranslatef(0.0, 1.15, -5.0);
 			glScalef(0.2, 2.3, 1.0);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante cocina 1
 			glTranslatef(1.0, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas de la cocina
 			glTranslatef(2.05, 1.15, -4.4);
 			glScalef(0.2, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante cocina 2
 			glTranslatef(3.1, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas de la cocina y comedor
 			glTranslatef(4.15, 1.15, -4.4);
 			glScalef(0.2, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante comedor 1
 			glTranslatef(5.2, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas del comedor
 			glTranslatef(6.25, 1.15, -4.4);
 			glScalef(0.2, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante comedor 2
 			glTranslatef(7.3, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar en la ultima ventana del comedor
 			glTranslatef(8.35, 1.15, -4.4);
 			glScalef(0.2, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 1m continuacion area de juegos
 			glTranslatef(8.35, 1.15, -5.0);
 			glScalef(0.2, 2.3, 1.0);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre la estancia comedor al inicio de las escaleras
 			glTranslatef(8.35, 1.15, 0.0);
 			glScalef(0.2, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 4.1m area de juegos parte superior
 			glTranslatef(10.45, 1.15, -5.4);
 			glScalef(4.1, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 4.1m area de juegos parte derecha
 			glTranslatef(12.5, 1.15, -2.7);
 			glScalef(0.2, 2.3, 5.6);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -577,20 +583,20 @@ void EstructuraCasa()
 		glPushMatrix();	//Pared planta 1 de 2.7m escaleras y vestibulo parte derecha
 			glTranslatef(4.15, 1.15, 1.35);
 			glScalef(0.2, 2.3, 2.5);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pared planta 1 de 5.1m estancia y vestibulo
 			glTranslatef(0.43, 1.15, 1.2);
 			glScalef(5.1, 2.3, 0.2);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 
 		glPushMatrix();	//Pared planta 1 de 1.5m entre baño y escaleras
 			glTranslatef(0.8, 1.15, 1.85);
 			glScalef(0.2, 2.3, 1.5);
-			cubo.prisma2(0.0, 0.0);
+			cubo.prisma2(0.0, muro.GLindex);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -618,7 +624,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
 				glTranslatef(0,50,0);
-				fig1.skybox(250.0, 100.0, 250.0,ny.GLindex,nx.GLindex,pz.GLindex,px.GLindex,nz.GLindex,py.GLindex);
+				fig1.skybox(150.0, 100.0, 150.0,ny.GLindex,nx.GLindex,pz.GLindex,px.GLindex,nz.GLindex,py.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
