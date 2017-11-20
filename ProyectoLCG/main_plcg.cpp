@@ -96,6 +96,8 @@ GLfloat m_amb2[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s2[] = {22};
 
 
+CTexture puerta1; //Puertas de la sala de tortura
+CTexture mesaT; //Mesa del cuarto de tortura
 CTexture muro; //Muros en general
 CTexture nx;	//Cielo
 CTexture pz;	//Cielo
@@ -271,6 +273,14 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	muro.LoadTGA("Texturas/muros.tga");
 	muro.BuildGLTexture();
 	muro.ReleaseImage();
+
+	mesaT.LoadTGA("Texturas/mesa.tga");
+	mesaT.BuildGLTexture();
+	mesaT.ReleaseImage();
+
+	puerta1.LoadTGA("Texturas/puerta1.tga");
+	puerta1.BuildGLTexture();
+	puerta1.ReleaseImage();
 	
 
 	casita._3dsLoad("Dollshouse.3ds");
@@ -499,7 +509,7 @@ void EstructuraCasa()
 		glPushMatrix();	//Ventana puerta deslizante cocina 1
 			glTranslatef(1.0, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, muro.GLindex);
+			cubo.prisma2(0.0, puerta1.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas de la cocina
@@ -511,7 +521,7 @@ void EstructuraCasa()
 		glPushMatrix();	//Ventana puerta deslizante cocina 2
 			glTranslatef(3.1, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, muro.GLindex);
+			cubo.prisma2(0.0, puerta1.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas de la cocina y comedor
@@ -523,7 +533,7 @@ void EstructuraCasa()
 		glPushMatrix();	//Ventana puerta deslizante comedor 1
 			glTranslatef(5.2, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, muro.GLindex);
+			cubo.prisma2(0.0, puerta1.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas del comedor
@@ -535,7 +545,7 @@ void EstructuraCasa()
 		glPushMatrix();	//Ventana puerta deslizante comedor 2
 			glTranslatef(7.3, 1.15, -4.4);
 			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, muro.GLindex);
+			cubo.prisma2(0.0, puerta1.GLindex);
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar en la ultima ventana del comedor
@@ -605,6 +615,17 @@ void EstructuraCasa()
 
 }
 
+void cuartoTortura() //aqui se definiran algunos objetos del cuarto de tortura
+{
+	//Mesa de piedra
+	glPushMatrix();
+		glTranslatef(6.5, 0.5, -22);
+		glScalef(1.8, 1.0, 0.8);
+		cubo.prisma2(0.0, mesaT.GLindex);
+	glPopMatrix();
+
+}
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -630,6 +651,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 				EstructuraCasa();
+				cuartoTortura();
 			glPopMatrix();
 		glPopMatrix();
 	glPopMatrix();

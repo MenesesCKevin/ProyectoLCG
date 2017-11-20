@@ -232,7 +232,7 @@ void CFiguras::prisma2 (GLuint text, GLuint text2)  //Funcion creacion prisma
 			glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[3]);
 		glEnd();
 
-		glBindTexture(GL_TEXTURE_2D, text);   // choose the texture to use.
+		glBindTexture(GL_TEXTURE_2D, text2);   // choose the texture to use.
 		glBegin(GL_POLYGON);  //Top
 			//glColor3f(0.8,0.2,0.4);
 			glNormal3f( 0.0f,1.0f, 0.0f);

@@ -1,4 +1,8 @@
-﻿  main_plcg.cpp
-c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\main_plcg.cpp(718): warning C4390: ';': se encontró una instrucción controlada vacía; ¿es esa la intención?
+﻿  figuras.cpp
+c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\figuras.cpp(20): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
+c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\figuras.cpp(90): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
+c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\figuras.cpp(116): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
+c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\figuras.cpp(327): warning C4101: 'theta': variable local sin referencia
+c:\users\mauricio\desktop\proyectolcg-master\proyectolcg\proyectolcg\figuras.cpp(327): warning C4101: 'phi': variable local sin referencia
   ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\ProyectoLCG-master\ProyectoLCG\Debug\ProyectoLCG.exe
   ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\ProyectoLCG-master\ProyectoLCG\Debug\ProyectoLCG.pdb (Partial PDB)
