@@ -102,8 +102,8 @@ CTexture nz;	//Cielo
 CTexture py;	//Cielo
 CTexture ny;	//piso
 CTexture fachada;
-CTexture text3;	//Flecha
-CTexture text4;	//Pavimento
+CTexture fachadaDI;	//fachada de los laterales
+CTexture techo;	//techo
 CTexture text5;	//Pasto01
 CTexture text6;	//Casa01
 
@@ -265,6 +265,14 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	fachada.LoadTGA("Texturas/fachada.tga");
 	fachada.BuildGLTexture();
 	fachada.ReleaseImage();
+
+	techo.LoadTGA("Texturas/techo.tga");
+	techo.BuildGLTexture();
+	techo.ReleaseImage();
+
+	fachadaDI.LoadTGA("Texturas/fachadaDI.tga");
+	fachadaDI.BuildGLTexture();
+	fachadaDI.ReleaseImage();
 	
 
 	casita._3dsLoad("Dollshouse.3ds");
@@ -298,24 +306,68 @@ void EstructuraCasa()
 {
 	/////////////////////////////////////////////////////////Planta 1 parte A baño, lavabo, cuarto de maquinas
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
-		glTranslatef(0.1, 1.15, -2.875);
+		glTranslatef(0.1, 1.5, -2.875);
 		glScalef(0.2, 2.3, 5.75);
 		cubo.prisma2(0.0, 0.0);
 	glPopMatrix();
 
+	
 	glPushMatrix();	//Pared planta 1 de 4.05 m frontal
 		glTranslatef(2.025, 1.15, -0.1);
 		glScalef(4.05, 2.3, 0.2);
 		cubo.prisma2(0.0,0.0);
 	glPopMatrix();
 
-	glPushMatrix();	//fachada
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.1);
-	glTranslatef(6.4, 6.2,0.22);
-	fig2.plano(12.5,13.3,0.2,fachada.GLindex);
-	glDisable(GL_ALPHA_TEST);
+	glPushMatrix();	//Fachada izquierda
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1);
+		glTranslatef(-0.13, 4.5, -12.0);
+		glRotatef(270.0, 0.0, 1.0, 0.0);
+		fig2.plano(9, 24.5, 0.2, fachadaDI.GLindex,2);
+		glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
+
+	glPopMatrix();
+		glPushMatrix();	//Fachada derecha
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1);
+		glTranslatef(12.9, 4.5, -12.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		fig2.plano(9, 24.5, 0.2, fachadaDI.GLindex,2);
+		glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
+	glPushMatrix();	//techo izquierda
+		glTranslatef(0.2, 10, -12.0);
+		glRotatef(270.0, 0.0, 1.0, 0.0);
+		glRotatef(-15, 1.0, 0.0, 0.0);
+		fig2.plano(3, 24.5, 0.2, techo.GLindex, 5);
+	glPopMatrix();
+
+	glPushMatrix();	//techo derecha
+		glTranslatef(12.7, 10, -12.0);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glRotatef(-15, 1.0, 0.0, 0.0);
+		fig2.plano(3, 24.5, 0.2, techo.GLindex, 5);
+	glPopMatrix();
+
+	glPushMatrix();	//fachada frontal
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1);
+		glTranslatef(6.4, 6.2,0.22);
+		fig2.plano(12.5,13.3,0.2,fachada.GLindex,1);
+		glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
+	glPushMatrix();	//fachada trasera
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0.1);
+		glTranslatef(6.4, 6.2, -24.3);
+		glRotatef(180, 0.0, 1.0, 0.0);
+		fig2.plano(12.5, 13.3, 0.2, fachada.GLindex,1);
+		glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
 
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado derecho
 		glTranslatef(4.15, 1.15, -2.875);

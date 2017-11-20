@@ -75,7 +75,7 @@ void CFiguras::skybox(float largo, float altura, float profundidad, GLuint ny, G
 		glEnd();
 }
 
-void CFiguras::plano(float altura, float largo, float profundidad, GLuint text)  //Funcion creacion prisma
+void CFiguras::plano(float altura, float largo, float profundidad, GLuint text,GLfloat n)  //Funcion creacion prisma
 {
 
 	GLfloat vertice[8][3] = {
@@ -94,9 +94,9 @@ void CFiguras::plano(float altura, float largo, float profundidad, GLuint text) 
 	glBegin(GL_POLYGON);	//Back
 							//glColor3f(0.0,1.0,0.0);
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[6]);
-	glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[5]);
-	glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[3]);
+	glTexCoord2f(0.0f, n); glVertex3fv(vertice[6]);
+	glTexCoord2f(n, n); glVertex3fv(vertice[5]);
+	glTexCoord2f(n, 0.0f); glVertex3fv(vertice[3]);
 	glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[2]);
 	glEnd();
 }
