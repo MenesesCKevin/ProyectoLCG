@@ -6,8 +6,7 @@
 //*************	 Hernandez Gomez Mauricio Alejandro		******//
 //*************	 Meneses Cornejo Kevin Osmar			******//
 //************************************************************//
-//Prueba para ver si github acomoda los cambios en la rama master
-//comentario de prueba
+
 
 #include "texture.h"
 #include "figuras.h"
@@ -298,7 +297,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	oldhouse.GLIniTextures();
 	oldhouse.ReleaseTextureImages();
 	
-	objCamera.Position_Camera(0,2.5f,3, 0,2.5f,0, 0, 1, 0);
+	objCamera.Position_Camera(0,14.0f,13.0f, 0,2.5f,0, 0, 1, 0);
 
 	//NEW Crear una lista de dibujo
 	ciudad_display_list = createDL();
@@ -363,8 +362,67 @@ glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glTranslatef(12.7, 10, -12.0);
 		glRotatef(90.0, 0.0, 1.0, 0.0);
 		glRotatef(-15, 1.0, 0.0, 0.0);
-		fig2.plano(3, 24.5, 0.2, techo.GLindex, 5);
+		fig2.plano(3, 24.3, 0.2, techo.GLindex, 5);
 	glPopMatrix();
+
+	glPushMatrix();	//techo superior izquierdo 1
+		glTranslatef(1.1, 11.5, -12.1);
+		glRotatef(270.0, 0.0, 1.0, 0.0);
+		glRotatef(-90, 1.0, 0.0, 0.0);
+		fig2.plano(0.8, 24.4, 0.2, techo.GLindex, 5);
+	glPopMatrix();
+
+	glPushMatrix();	//techo superior izquierdo 2
+		glTranslatef(1.5, 11, -12.1);
+		glRotatef(270.0, 0.0, 1.0, 0.0);
+		glRotatef(-135, 1.0, 0.0, 0.0);
+		fig2.plano(0.8, 24.4, 0.2, techo.GLindex, 5);
+	glPopMatrix();
+
+	glPushMatrix();	//techo superior derecha 2
+		glTranslatef(11.2, 11, -12.1);
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glRotatef(-135, 1.0, 0.0, 0.0);
+		fig2.plano(0.8, 24.4, 0.2, techo.GLindex, 5);
+	glPopMatrix();
+
+	glPushMatrix();	//techo superior izquierdo 3
+	glTranslatef(6, 10.8, -12.1);
+	glRotatef(270.0, 0.0, 1.0, 0.0);
+	glRotatef(-90, 1.0, 0.0, 0.0);
+	fig2.plano(11, 24.4, 0.2, techo.GLindex, 20);
+	glPopMatrix();
+
+	glPushMatrix();	//techo superior izquierda 4
+	glTranslatef(5.6, 11.2, -12.1);
+	glRotatef(90.0, 0.0, 1.0, 0.0);
+	glRotatef(-170, 1.0, 0.0, 0.0);
+	fig2.plano(2.6, 24.4, 0.2, techo.GLindex, 6);
+	glPopMatrix();
+
+	glPushMatrix();	//techo superior derecha  4
+	glTranslatef(6.5, 12.5, -12.0);
+	glRotatef(270.0, 0.0, 1.0, 0.0);
+	glRotatef(-90, 1.0, 0.0, 0.0);
+	fig2.plano(1.2, 24.4, 0.2, techo.GLindex, 6);
+	glPopMatrix();
+
+	glPushMatrix();	//techo superior derecha 5
+	glTranslatef(7.2, 11.2, -12.1);
+	glRotatef(90.0, 0.0, 1.0, 0.0);
+	glRotatef(-10, 1.0, 0.0, 0.0);
+	fig2.plano(2.6, 24.4, 0.2, techo.GLindex, 6);
+	glPopMatrix();
+
+	glPushMatrix();	//techo superior derecha 1
+	glTranslatef(11.8, 11.5, -12.1);
+	glRotatef(90.0, 0.0, 1.0, 0.0);
+	glRotatef(-90, 1.0, 0.0, 0.0);
+	fig2.plano(0.8, 24.4, 0.2, techo.GLindex, 5);
+	glPopMatrix();
+
+	
+	
 
 	glPushMatrix();	//fachada frontal
 		glEnable(GL_ALPHA_TEST);
@@ -682,7 +740,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
 				glTranslatef(0,50,0);
-				fig1.skybox(250.0, 100.0, 250.0,ny.GLindex,nx.GLindex,pz.GLindex,px.GLindex,nz.GLindex,py.GLindex);
+				fig1.skybox(100.0, 100.0, 100.0,ny.GLindex,nx.GLindex,pz.GLindex,px.GLindex,nz.GLindex,py.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, 10.0);
