@@ -43,7 +43,7 @@ float angMen1 = 0.0f;
 float angMen2 = 0.0f;
 float angMen3 = 0.0f;
 
-#define MAX_FRAMES 60
+#define MAX_FRAMES 500
 int i_max_steps = 90;
 int i_curr_steps = 0;
 
@@ -188,6 +188,7 @@ CFiguras cilindro;
 
 //Figuras de 3D Studio
 CModel slender;
+CModel craneo;
 
 //variables de animacion
 float angCuadros = 0.0;
@@ -230,19 +231,20 @@ bool rangCuadros2 = false;
 
 void saveFrame(void)
 {
-
 	printf("frameindex %d\n", FrameIndex);
 	archsal = fopen("salida.txt", "a");
 	KeyFrame[FrameIndex].posX = objCamera.mPos.x;
+	printf("%f", KeyFrame[FrameIndex].posX);
 	KeyFrame[FrameIndex].posY = objCamera.mPos.y;
 	KeyFrame[FrameIndex].posZ = objCamera.mPos.z;
 	KeyFrame[FrameIndex].viewX = objCamera.mView.x;
-	KeyFrame[FrameIndex].angdown = g_lookupdown;
 	KeyFrame[FrameIndex].viewY = objCamera.mView.y;
 	KeyFrame[FrameIndex].viewZ = objCamera.mView.z;
 	KeyFrame[FrameIndex].upX = objCamera.mUp.x;
 	KeyFrame[FrameIndex].upY = objCamera.mUp.y;
 	KeyFrame[FrameIndex].upZ = objCamera.mUp.z;
+	KeyFrame[FrameIndex].angdown = g_lookupdown;
+	
 	KeyFrame[FrameIndex].angMedi3 = angMedi3;
 	KeyFrame[FrameIndex].angAnu1 = angAnu1;
 	KeyFrame[FrameIndex].angAnu2 = angAnu2;
@@ -250,8 +252,9 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].angMen1 = angMen1;
 	KeyFrame[FrameIndex].angMen2 = angMen2;
 	KeyFrame[FrameIndex].angMen3 = angMen3;
-	fprintf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", posX, posY, posZ, viewX, angdown, viewY, viewZ, upX,
-		upY, upZ, angMedi3, angMen1, angMen2, angMen3, angAnu1, angAnu2, angAnu3);
+	fprintf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z, 
+		objCamera.mView.x, objCamera.mView.y, objCamera.mView.z, objCamera.mUp.x,
+		objCamera.mUp.y, objCamera.mUp.z, g_lookupdown, angMedi3, angMen1, angMen2, angMen3, angAnu1, angAnu2, angAnu3);
 	FrameIndex++;
 	fclose(archsal);
 }
@@ -304,16 +307,18 @@ void cargaEstructura() {
 	FrameIndex = 0;
 	archsal = fopen("salida.txt", "r");
 	final = fscanf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", &KeyFrame[FrameIndex].posX,
-		&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX, &KeyFrame[FrameIndex].angdown,
+		&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX, 
 		&KeyFrame[FrameIndex].viewY, &KeyFrame[FrameIndex].viewZ, &KeyFrame[FrameIndex].upX,
-		&KeyFrame[FrameIndex].upY, &KeyFrame[FrameIndex].upZ, &KeyFrame[FrameIndex].angMedi3,
+		&KeyFrame[FrameIndex].upY, &KeyFrame[FrameIndex].upZ, &KeyFrame[FrameIndex].angdown,
+		&KeyFrame[FrameIndex].angMedi3,
 		&KeyFrame[FrameIndex].angMen1, &KeyFrame[FrameIndex].angMen2, &KeyFrame[FrameIndex].angMen3,
 		&KeyFrame[FrameIndex].angAnu1, &KeyFrame[FrameIndex].angAnu2, &KeyFrame[FrameIndex].angAnu3);
 	while (final != EOF) {
 		final = fscanf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", &KeyFrame[FrameIndex].posX,
-			&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX, &KeyFrame[FrameIndex].angdown,
+			&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX,
 			&KeyFrame[FrameIndex].viewY, &KeyFrame[FrameIndex].viewZ, &KeyFrame[FrameIndex].upX,
-			&KeyFrame[FrameIndex].upY, &KeyFrame[FrameIndex].upZ, &KeyFrame[FrameIndex].angMedi3,
+			&KeyFrame[FrameIndex].upY, &KeyFrame[FrameIndex].upZ, &KeyFrame[FrameIndex].angdown,
+			&KeyFrame[FrameIndex].angMedi3,
 			&KeyFrame[FrameIndex].angMen1, &KeyFrame[FrameIndex].angMen2, &KeyFrame[FrameIndex].angMen3,
 			&KeyFrame[FrameIndex].angAnu1, &KeyFrame[FrameIndex].angAnu2, &KeyFrame[FrameIndex].angAnu3);
 		FrameIndex++;
@@ -511,9 +516,11 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	porton.BuildGLTexture();
 	porton.ReleaseImage();
 
-	objCamera.Position_Camera(4,6.0f,2.0f, -4.0,0.0f,0, 0, 1, 0);
+	craneo._3dsLoad("modelos/skull.3DS");
 
-	for (int i = 0; i<MAX_FRAMES; i++)
+	objCamera.Position_Camera(6.3,1.3f, 30.0f , 6.0,0.0f,0, 0, 1, 0);
+
+	/*for (int i = 0; i<MAX_FRAMES; i++)
 	{
 		KeyFrame[i].posX = 0;
 		KeyFrame[i].posY = 0;
@@ -532,7 +539,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 		KeyFrame[i].angAnu1 = 0;
 		KeyFrame[i].angAnu2 = 0;
 		KeyFrame[i].angAnu3 = 0;
-	}
+	}*/
 
 }
 
@@ -1474,7 +1481,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 				glPushMatrix();					//puerta principal
 
-					glTranslatef(7.0, 1.5, 0.3);
+					glTranslatef(6.3, 1.5, 0.3);
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 					cubo.plano(3.0, 2.0, 0.1, porton.GLindex, 1);
@@ -1691,23 +1698,6 @@ void animacion()
 		fig3.text_der=1;
 
 
-	if(g_fanimacion)
-	{
-		if(g_avanza)
-		{
-			movKitZ +=1.0;
-			rotTires -= 10;
-			if(movKitZ>130)
-				g_avanza = false;
-		}
-		else
-		{
-			movKitZ -=1.0;
-			rotTires += 10;
-			if(movKitZ<0)
-				g_avanza = true;
-		}
-	}
 
 		if (play_puertas)
 		{
@@ -1825,6 +1815,10 @@ void animacion()
 	if (play)
 	{
 		recorrido = true;
+		play_puertas = true;
+		play_cuadros = true;
+		play_murcielagos = true;
+
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
 		{
 			playIndex++;
@@ -1834,6 +1828,10 @@ void animacion()
 				playIndex = 0;
 				play = false;
 				recorrido = false;
+				play_puertas = false;
+				play_cuadros = false;
+				play_murcielagos = false;
+
 			}
 			else //Next frame interpolations
 			{
@@ -1905,12 +1903,12 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case 'w':   //Movimientos de camara
 		case 'W':
-			objCamera.Move_Camera( CAMERASPEED+0.01 );
+			objCamera.Move_Camera( CAMERASPEED+ 0.01);
 			break;
 
 		case 's':
 		case 'S':
-			objCamera.Move_Camera(-(CAMERASPEED+0.01));
+			objCamera.Move_Camera(-(CAMERASPEED+ 0.01));
 			break;
 
 		case 'a':
@@ -1950,6 +1948,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			{
 
 				resetElements();
+				PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
 				//First Interpolation				
 				interpolation();
 
