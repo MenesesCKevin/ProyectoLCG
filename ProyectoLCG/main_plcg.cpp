@@ -93,6 +93,8 @@ int playIndex=0;
 bool play_puertas = false;
 bool play_murcielagos = false;
 bool recorrido = false;
+bool play_cuadros = false;
+
 
 //NEW//////////////////NEW//////////////////NEW//////////////////NEW////////////////
 
@@ -169,6 +171,7 @@ CTexture cuadro8;
 CTexture cuadro9;
 CTexture cuadro10;
 CTexture cuadro11;
+CTexture porton;
 
 CTexture tree;
 
@@ -184,16 +187,11 @@ CFiguras cubo;
 CFiguras cilindro;
 
 //Figuras de 3D Studio
-
 CModel slender;
-CModel Bed;
-CModel eyeball;
-CModel mano;
-CModel skeleton;
-CModel skull;
-CModel wolf_3ds;
 
 //variables de animacion
+float angCuadros = 0.0;
+float movCuadros = 0.0;
 float angMurcielago = 0.0;
 float murcielagos = 0.0;
 float angPuerta = 0.0;
@@ -223,6 +221,12 @@ bool Puerta4 = false;
 
 bool murcielago1 = true;
 bool murcielago2 = false;
+
+bool rCuadros1 = true;
+bool rCuadros2 = false;
+
+bool rangCuadros1 = true;
+bool rangCuadros2 = false;
 
 void saveFrame(void)
 {
@@ -495,15 +499,18 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	cuadro9.BuildGLTexture();
 	cuadro9.ReleaseImage();
 
-	cuadro10.LoadTGA("Texturas/cuadrol0.tga");
+	cuadro10.LoadTGA("Texturas/cuadro10.tga");
 	cuadro10.BuildGLTexture();
 	cuadro10.ReleaseImage();
 
-	cuadro11.LoadTGA("Texturas/cuadrol1.tga");
+	cuadro11.LoadTGA("Texturas/cuadro11.tga");
 	cuadro11.BuildGLTexture();
 	cuadro11.ReleaseImage();
 
-	
+	porton.LoadTGA("Texturas/porton.tga");
+	porton.BuildGLTexture();
+	porton.ReleaseImage();
+
 	objCamera.Position_Camera(4,6.0f,2.0f, -4.0,0.0f,0, 0, 1, 0);
 
 	for (int i = 0; i<MAX_FRAMES; i++)
@@ -526,7 +533,6 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 		KeyFrame[i].angAnu2 = 0;
 		KeyFrame[i].angAnu3 = 0;
 	}
-
 
 }
 
@@ -724,8 +730,8 @@ void EstructuraCasa()
 		cubo.prisma2(0.0, muro.GLindex, 4);
 	glPopMatrix();
 
-	glPushMatrix();
-		glTranslated(12.5, 1.15, -4.4);
+	glPushMatrix();			//Cuadros
+		glTranslated(12.5 - movCuadros, 1.15, -4.4);
 		glRotatef(180, 0, 1, 0);
 		cuadro(cuadro2.GLindex);
 	glPopMatrix();
@@ -733,11 +739,12 @@ void EstructuraCasa()
 	glPushMatrix();
 		glTranslated(12.5, 1.15, -2.4);
 		glRotatef(180, 0, 1, 0);
+		glRotatef(angCuadros, 1, 0, 0);
 		cuadro(cuadro3.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();
-		glTranslated(12.5, 1.15, -6.4);
+		glTranslated(12.5 - movCuadros, 1.15, -6.4);
 		glRotatef(180, 0, 1, 0);
 		cuadro(cuadro4.GLindex);
 	glPopMatrix();
@@ -1420,6 +1427,33 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 
+				glPushMatrix();	//cadenas cadenas
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				glTranslatef(5.0, 1.4, -5.0);
+				glRotatef(-90.0, 0.0, 0.0, 1.0);
+				fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
+				glPushMatrix();	//cadenas cadenas
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				glTranslatef(7.0, 1.4, -5.3);
+				glRotatef(-90.0, 0.0, 0.0, 1.0);
+				fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
+				glPushMatrix();	//cadenas cadenas
+				glEnable(GL_ALPHA_TEST);
+				glAlphaFunc(GL_GREATER, 0.1);
+				glTranslatef(6.5, 1.4, -5.9);
+				glRotatef(-90.0, 0.0, 0.0, 1.0);
+				fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
+				glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
 				glBegin(GL_LINES);
 				glColor3f(1.0f, 0.0f, 0.0f);
 				glVertex3f(0.0f, 0.0f, 0.0f);
@@ -1438,6 +1472,67 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glVertex3f(0.0f, 0.0f, 200.0f);
 				glEnd();
 
+				glPushMatrix();					//puerta principal
+
+					glTranslatef(7.0, 1.5, 0.3);
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					cubo.plano(3.0, 2.0, 0.1, porton.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
+				glPushMatrix();					//puerta principal
+
+					glTranslatef(7.0, 1.5, -0.1);
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					glRotatef(180.0, 0.0, 1.0, 0.0);
+					cubo.plano(3.0, 2.0, 0.1, porton.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);	
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(0.3 + movCuadros, 1.5, -8.0);
+					cuadro(cuadro5.GLindex);
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(0.3 + movCuadros, 1.5, -14.0);
+					cuadro(cuadro6.GLindex);	
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(8.0, 1.5, -10.1);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					glRotatef(-90.0 + angCuadros, 1.0, 0.0, 0.0);
+					cuadro(cuadro7.GLindex);
+				glPopMatrix();
+
+
+				glPushMatrix();
+					glTranslatef(10.5, 1.5, -10.1);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					glRotatef(-angCuadros, 1.0, 0.0, 0.0);
+					cuadro(cuadro8.GLindex);
+				glPopMatrix();
+
+
+				glPushMatrix();
+					glTranslatef(4.3 + movCuadros, 1.5, -3.5);
+					cuadro(cuadro11.GLindex);	
+				glPopMatrix();
+
+
+				glPushMatrix();
+					glTranslatef(0.3+ movCuadros, 1.5, -1.6);
+					cuadro(cuadro10.GLindex);
+				glPopMatrix();
+
+
+				glPushMatrix();
+					glTranslatef(2.3, 1.5, -16.6);
+					cuadro(cuadro9.GLindex);
+				glPopMatrix();
 
 
 				glPushMatrix();
@@ -1680,10 +1775,53 @@ void animacion()
 			}
 		}
 
+		if (play_cuadros)
+		{
+			if (rCuadros1)
+			{
+				movCuadros+=0.1;
+				if (movCuadros >= 5.0)
+				{
+					rCuadros1 = false;
+					rCuadros2 = true;
+				}
+			}
+			if (rCuadros2)
+			{
+				movCuadros -= 0.1;
+				if (movCuadros <= 0.0)
+				{
+
+					rCuadros2 = false;
+					rCuadros1 = true;
+				}
+			}
+		}
+
+		if (play_cuadros)
+		{
+			if (rangCuadros1)
+			{
+				angCuadros += 1.0;
+				if (angCuadros >= 60)
+				{
+					rangCuadros2 = true;
+					rangCuadros1 = false;
+				}
+			}
+			if (rangCuadros2)
+			{
+				angCuadros -= 1.0;
+				if (angCuadros <= 0)
+				{
+					rangCuadros2 = false;
+					rangCuadros1 = true;
+
+				}
+			}
+		}
 
 
-
-	//Movimiento de las puertas
 	if (play)
 	{
 		recorrido = true;
@@ -1862,14 +2000,27 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		case '1':
 			play_puertas ^= true;
 			g_fanimacion = false;
+			play_cuadros = false;
 			play_murcielagos = false;
 			break;
 
 		case '2':
 			play_puertas = false;
 			g_fanimacion = false;
+			play_cuadros = false;
 			play_murcielagos ^= true;
 			break;
+		case '9':
+			PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
+			break;
+
+		case '3':
+			play_puertas = false;
+			g_fanimacion = false;
+			play_murcielagos = false;
+			play_cuadros ^= true;
+			break;
+
 		case '9':
 			PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
 			break;
