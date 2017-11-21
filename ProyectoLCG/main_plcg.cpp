@@ -54,6 +54,8 @@ int FrameIndex=5;			//introducir datos
 bool play=false;
 int playIndex=0;
 
+bool play_puertas = false;
+
 
 //NEW//////////////////NEW//////////////////NEW//////////////////NEW////////////////
 
@@ -139,7 +141,8 @@ CModel llanta;
 CModel casita;
 CModel oldhouse;
 
-//Animación del coche
+//variables de animacion
+float angPuerta = 0.0;
 float angRot = 0.0;
 float movKitX = 0.0;
 float movKitY = 4.0;
@@ -157,6 +160,12 @@ bool recorrido4 = false;
 bool recorrido5 = false;
 bool recorrido6 = false;
 bool recorrido7 = false;
+
+
+bool Puerta1 = true;
+bool Puerta2 = false;
+bool Puerta3 = false;
+bool Puerta4 = false;
 
 void saveFrame(void)
 {
@@ -366,6 +375,7 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
 void EstructuraCasa()
 {
 	/////////////////////////////////////////////////////////Planta 1 parte A baño, lavabo, cuarto de maquinas
+
 	glPushMatrix();	//Pared planta 1 de 5.75 m lado izquierdo
 		glTranslatef(0.1, 1.15, -2.875);
 		glScalef(0.2, 2.3, 5.75);
@@ -556,23 +566,14 @@ void EstructuraCasa()
 	glPopMatrix();
 
 
-	glBegin(GL_LINES);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(200.0f, 0.0f,muro.GLindex);
-	glEnd();
+	//techo planta 1
 
-	glBegin(GL_LINES);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 200.0f, 0.0f);
-	glEnd();
+	glPushMatrix();
+		glTranslatef(6.4, 2.55, -5.15);
+		glScalef(12.7, 0.5, 10.5);
+		cubo.prisma2(0.0, ny.GLindex, 2);
+	glPopMatrix();
 
-	glBegin(GL_LINES);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 200.0f);
-	glEnd();
 
 
 	//////////////////////////////////////////////////////////////Fin de parte 1 de la plana A
@@ -661,9 +662,25 @@ void EstructuraCasa()
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante cocina 1
-			glTranslatef(1.0, 1.15, -4.4);
-			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, puerta1.GLindex, 1);
+
+			glTranslatef(0.0, 1.15, -4.4);
+			glRotatef(angPuerta, 0.0, 1.0, 0.0);
+			glPushMatrix();
+				glTranslatef(1.0, 0.0, 0.0);
+				glScalef(1.9, 2.3, 0.05);
+				cubo.prisma2(0.0, puerta1.GLindex, 1);
+
+				glPushMatrix();	//cadenas puerta de prision
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					glTranslatef(0.0, 0.0, 0.8);
+					glRotatef(45.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.4, 1.0, 0.1, cadena.GLindex, 1);
+					glRotatef(90.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.4, 1.0, 0.1, cadena.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+			glPopMatrix();
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas de la cocina
@@ -673,9 +690,26 @@ void EstructuraCasa()
 		glPopMatrix();
 
 		glPushMatrix();	//Ventana puerta deslizante cocina 2
-			glTranslatef(3.1, 1.15, -4.4);
-			glScalef(1.9, 2.3, 0.05);
-			cubo.prisma2(0.0, puerta1.GLindex, 1);
+
+			glTranslatef(4.0, 1.15, -4.4);
+			glRotatef(-angPuerta, 0.0, 1.0, 0.0);
+
+			glPushMatrix();
+				glTranslatef(-1.1, 0.0, 0.0);
+				glScalef(1.9, 2.3, 0.05);
+
+				cubo.prisma2(0.0, puerta1.GLindex, 1);
+				glPushMatrix();	//cadenas puerta de prision
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					glTranslatef(0.0, 0.0, 0.8);
+					glRotatef(45.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.4, 1.0, 0.1, cadena.GLindex, 1);
+					glRotatef(90.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.4, 1.0, 0.1, cadena.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+			glPopMatrix();
 		glPopMatrix();
 
 		glPushMatrix();	//Pilar entre ventanas de la cocina y comedor
@@ -732,6 +766,7 @@ void EstructuraCasa()
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		glPopMatrix();
 
+
 	glPopMatrix();
 
 
@@ -762,6 +797,66 @@ void EstructuraCasa()
 			glScalef(0.2, 2.3, 1.5);
 			cubo.prisma2(0.0, muro.GLindex, 2);
 		glPopMatrix();
+
+	glPopMatrix();
+
+	glPushMatrix();		//Escaleras
+
+		glPushMatrix();	//escalon 1
+			glTranslatef(8.5, 0.2, -10.9);
+			glScalef(0.5, 0.4, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);	
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 2
+			glTranslatef(9.0, 0.4, -10.9);
+			glScalef(0.5, 0.8, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 3
+			glTranslatef(9.5, 0.6, -10.9);
+			glScalef(0.5, 1.2, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 4
+			glTranslatef(10.0, 0.8, -10.9);
+			glScalef(0.5, 1.6, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 5
+			glTranslatef(10.5, 1.0, -10.9);
+			glScalef(0.5, 2.0, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 6
+			glTranslatef(11.0, 1.2, -10.9);
+			glScalef(0.5, 2.4, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);	
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 7
+			glTranslatef(11.5, 1.4, -10.9);
+			glScalef(0.5, 2.8, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 8
+			glTranslatef(12.0, 1.4, -10.9);
+			glScalef(0.5, 2.8, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);
+		glPopMatrix();
+
+		glPushMatrix();	//escalon 8
+			glTranslatef(12.5, 1.4, -10.9);
+			glScalef(0.5, 2.8, 1.0);
+			cubo.prisma2(0.0, ny.GLindex, 1);
+		glPopMatrix();
+
+
 
 	glPopMatrix();
 }
@@ -1061,6 +1156,24 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 
+				glBegin(GL_LINES);
+				glColor3f(1.0f, 0.0f, 0.0f);
+				glVertex3f(0.0f, 0.0f, 0.0f);
+				glVertex3f(200.0f, 0.0f, muro.GLindex);
+				glEnd();
+
+				glBegin(GL_LINES);
+				glColor3f(1.0f, 0.0f, 0.0f);
+				glVertex3f(0.0f, 0.0f, 0.0f);
+				glVertex3f(0.0f, 200.0f, 0.0f);
+				glEnd();
+
+				glBegin(GL_LINES);
+				glColor3f(1.0f, 0.0f, 0.0f);
+				glVertex3f(0.0f, 0.0f, 0.0f);
+				glVertex3f(0.0f, 0.0f, 200.0f);
+				glEnd();
+
 
 				EstructuraCasa();
 				cuartoTortura();
@@ -1104,50 +1217,40 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					antorcha();
 				glPopMatrix();
 
-				glPushMatrix();	//cadenas
-					glEnable(GL_ALPHA_TEST);
-					glAlphaFunc(GL_GREATER, 0.1);
-					glTranslatef(5.0, 1.2, -23.7);
-					glRotatef(90.0, 0.0, 0.0, 1.0);
-					fig2.plano(0.8, 2.0, 0.1, cadena.GLindex, 1);
-					glDisable(GL_ALPHA_TEST);
-				glPopMatrix();
-
-
 
 
 				glPushMatrix();						//guillotina
-					glTranslatef(10.0, 0.5, -20.0);
+					glTranslatef(10.0, 0.25, -20.0);
 					glRotatef(-90.0, 0.0, 1.0, 0.0);
 					guillotina();
 				glPopMatrix();
 
 				glPushMatrix();						//suelo para la guillotina
-					glTranslatef(10.5, 0.25, -19.5);
-					glScalef(3.0, 0.5, 3.0);
+					glTranslatef(10.5, 0.125, -19.5);
+					glScalef(3.0, 0.25, 3.0);
 					cubo.prisma2(0.0, ny.GLindex, 1);
 				glPopMatrix();
 
 				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(9.2, 0.5, -18.2);
+					glTranslatef(9.2, 0.0, -18.2);
 					glRotatef(90.0, 0.0, 1.0, 0.0);
 					antorcha();
 				glPopMatrix();
 
 				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(9.2, 0.5, -20.8);
+					glTranslatef(9.2, 0.0, -20.8);
 					glRotatef(90.0, 0.0, 1.0, 0.0);
 					antorcha();
 				glPopMatrix();
 
 				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(11.8, 0.5, -18.2);
+					glTranslatef(11.8, 0.0, -18.2);
 					glRotatef(90.0, 0.0, 1.0, 0.0);
 					antorcha();
 				glPopMatrix();
 
 				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(11.8, 0.5, -20.8);
+					glTranslatef(11.8, 0.0, -20.8);
 					glRotatef(90.0, 0.0, 1.0, 0.0);
 					antorcha();
 				glPopMatrix();
@@ -1179,7 +1282,7 @@ void animacion()
 	if(fig3.text_der<0)
 		fig3.text_der=1;
 
-	//Movimiento del coche
+
 	if(g_fanimacion)
 	{
 		if(g_avanza)
@@ -1198,99 +1301,49 @@ void animacion()
 		}
 	}
 
-	if(circuito)
+	if (play_puertas)
 	{
-		if(recorrido1)
+		if (Puerta1)
 		{
-			printf("recorrido 1 %f,%f,%f\n", movKitX, movKitY, movKitZ);
-			movKitZ ++;
-			if(movKitZ>155)
+			angPuerta--;
+			if (angPuerta <= -45)
 			{
-				recorrido1 = false;
-				recorrido2 = true;
+				Puerta1 = false;
+				Puerta2 = true;
 			}
 		}
-		if(recorrido2)
+		if (Puerta2)
 		{
-			printf("recorrido 2 %f,%f,%f\n", movKitX, movKitY, movKitZ);
-			rotKit = 270;
-			movKitX--;
-			if(movKitX < -125)
+			angPuerta--;
+			if (angPuerta <= -90)
 			{
-				recorrido2 = false;
-				recorrido4 = true;
-				
+				Puerta2 = false;
+				Puerta3 = true;
+
 			}
 		}
-		/*if(recorrido3)
+		if (Puerta3)
 		{
-			rotKit = 180;
-			movKitZ --;
-			if(movKitZ<-155)
+			angPuerta++;
+			if (angPuerta >= -45)
 			{
-				recorrido3 = false;
-				recorrido4 = true;
-			}
-		}*/
-		if(recorrido4)
-		{
-			girallanta = 0;
-			printf("recorrido 4 %f,%f,%f\n", movKitX, movKitY, movKitZ);
-			rotKit = 150;
-			movKitX ++;
-			movKitZ-=2.5;
-			if (movKitY < 60);
-				movKitY++;
-			if(movKitZ<30)
-			{
-				recorrido4 = false;
-				recorrido5 = true;
-			}
-			
-		}
-		if (recorrido5)
-		{
-			printf("recorrido 5 %f,%f,%f\n", movKitX, movKitY, movKitZ);
-			movKitX++;
-			movKitZ -= 2.5;
-			
-			if (movKitZ<-40)
-			{
-				
-				movKitY--;
-				if (movKitY == 4) {
-					recorrido5 = false;
-					recorrido6 = true;
-				}
-			}
-			
-		}
-		if (recorrido6)
-		{
-			printf("recorrido 6 %f,%f,%f\n", movKitX, movKitY, movKitZ);
-			movKitZ--;
-			girallanta = 90;
-			if (movKitZ<-155)
-			{
-				recorrido6 = false;
-				recorrido7 = true;
+				Puerta3 = false;
+				Puerta4 = true;
 			}
 		}
-		if(recorrido7)
+		if (Puerta4)
 		{
-			printf("recorrido 7 %f,%f,%f,\n", movKitX, movKitY, movKitZ);
-			rotKit = 0;
-			movKitZ ++;
-			if(movKitZ>0)
+			angPuerta++;
+			if (angPuerta >= 0)
 			{
-				recorrido7 = false;
-				recorrido1 = true;
+				Puerta4 = false;
+				Puerta1 = true;
 			}
 		}
 	}
 
 
-	//Movimiento del monito
+	//Movimiento de las puertas
 	if (play)
 	{
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
@@ -1362,22 +1415,22 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case 'w':   //Movimientos de camara
 		case 'W':
-			objCamera.Move_Camera( CAMERASPEED+0.1 );
+			objCamera.Move_Camera( CAMERASPEED+0.01 );
 			break;
 
 		case 's':
 		case 'S':
-			objCamera.Move_Camera(-(CAMERASPEED+0.1));
+			objCamera.Move_Camera(-(CAMERASPEED+0.01));
 			break;
 
 		case 'a':
 		case 'A':
-			objCamera.Strafe_Camera(-(CAMERASPEED+0.1));
+			objCamera.Strafe_Camera(-(CAMERASPEED+0.01));
 			break;
 
 		case 'd':
 		case 'D':
-			objCamera.Strafe_Camera( CAMERASPEED+0.1);
+			objCamera.Strafe_Camera( CAMERASPEED+0.01);
 			break;
 
 		case 'O':		//  
@@ -1454,14 +1507,9 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			//printf("%f \n", rotRodIzq);
 			break;
 
-		case 'p':						
-			giroMonito++;
-			//printf("%f \n", giroMonito);
-			break;
-
-		case 'P':						
-			giroMonito--;
-			//printf("%f \n", giroMonito);
+		case '1':
+			play_puertas ^= true;
+			g_fanimacion = false;
 			break;
 
 		case 27:        // Cuando Esc es presionado...
