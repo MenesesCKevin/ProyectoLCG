@@ -142,6 +142,9 @@ CModel kit;
 CModel llanta;
 CModel casita;
 CModel oldhouse;
+CModel cuchillo;
+CModel carnicero;
+CModel slender;
 
 //variables de animacion
 float angPuerta = 0.0;
@@ -349,12 +352,18 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 	casita._3dsLoad("Dollshouse.3ds");
 
+	carnicero._3dsLoad("carnicero.3ds");
+
+	slender._3dsLoad("modelos/Slenderman.3ds");
+
+	cuchillo._3dsLoad("modelos/cuchillo.3ds");
+
 	oldhouse._3dsLoad("oldhouse/oldhouse.3ds");
 	oldhouse.LoadTextureImages();
 	oldhouse.GLIniTextures();
 	oldhouse.ReleaseTextureImages();
 	
-	objCamera.Position_Camera(4,6.0f,2.0f, -4.0,0.0f,0, 0, 1, 0);
+	objCamera.Position_Camera(5, 1.0, 9.0, 9.0, 0.0f, 0, 0, 1, 0);
 
 	//NEW Crear una lista de dibujo
 	ciudad_display_list = createDL();
@@ -1171,6 +1180,37 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 
+
+				EstructuraCasa();
+				cuartoTortura();
+
+				glPushMatrix();	//cadenas cadenas
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					glTranslatef(5.0, 1.4, -5.0);			
+					glRotatef(-90.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
+				glPushMatrix();	//cadenas cadenas
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					glTranslatef(7.0, 1.4, -5.3);
+					glRotatef(-90.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
+				glPushMatrix();	//cadenas cadenas
+					glEnable(GL_ALPHA_TEST);
+					glAlphaFunc(GL_GREATER, 0.1);
+					glTranslatef(6.5, 1.4, -5.9);
+					glRotatef(-90.0, 0.0, 0.0, 1.0);
+					fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
+					glDisable(GL_ALPHA_TEST);
+				glPopMatrix();
+
 				glBegin(GL_LINES);
 				glColor3f(1.0f, 0.0f, 0.0f);
 				glVertex3f(0.0f, 0.0f, 0.0f);
@@ -1189,9 +1229,13 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glVertex3f(0.0f, 0.0f, 200.0f);
 				glEnd();
 
-
-				EstructuraCasa();
-				cuartoTortura();
+				/*glPushMatrix();
+					glDisable(GL_LIGHTING);
+					glTranslatef(-1.0, 1.0, 1.0);
+					glScalef(0.001,0.001,0.001);
+					slender.GLrender(NULL, _SHADED, 1.0);
+					glEnable(GL_LIGHTING);
+				glPopMatrix();*/
 
 				glPushMatrix();						//Silla de la mesa del cuarto de tortura
 					glTranslatef(2.0,0.0,-21.0);
@@ -1269,9 +1313,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 						glTranslatef(11.8, 0.0, -20.8);
 						glRotatef(90.0, 0.0, 1.0, 0.0);
 						antorcha();
-					glPopMatrix();	
-
-
+					glPopMatrix();
 				glPopMatrix();
 
 
