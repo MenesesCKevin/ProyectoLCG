@@ -11,6 +11,8 @@
 #include "texture.h"
 #include "figuras.h"
 #include "Camera.h"
+#include <Windows.h>
+#include <mmsystem.h>
 
 #include "cmodel/CModel.h"
 //Solo para Visual Studio 2015
@@ -572,6 +574,19 @@ void EstructuraCasa()
 		glTranslatef(6.4, 2.55, -5.15);
 		glScalef(12.7, 0.5, 10.5);
 		cubo.prisma2(0.0, ny.GLindex, 2);
+	glPopMatrix();
+
+
+	glPushMatrix();
+		glTranslatef(6.4, 2.55, -17.65);
+		glScalef(12.7, 0.5, 12.5);
+		cubo.prisma2(0.0, ny.GLindex, 2);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(4.5, 2.55, -10.9);
+		glScalef(9.0, 0.5, 1.0);
+		cubo.prisma2(0.0, ny.GLindex, 1);
 	glPopMatrix();
 
 
@@ -1217,44 +1232,47 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					antorcha();
 				glPopMatrix();
 
+				glPushMatrix();		//////////////////objetos para el altar de la guillotina
+					glTranslatef(0.0, -0.20, 0.0);
+
+					glPushMatrix();						//guillotina
+						glTranslatef(10.0, 0.20, -20.0);
+						glRotatef(-90.0, 0.0, 1.0, 0.0);
+						guillotina();
+					glPopMatrix();
+
+					glPushMatrix();						//suelo para la guillotina
+						glTranslatef(10.5, 0.125, -19.5);
+						glScalef(3.0, 0.25, 3.0);
+						cubo.prisma2(0.0, ny.GLindex, 1);
+					glPopMatrix();
+
+					glPushMatrix();						//Antorcha de la guillotina
+						glTranslatef(9.2, 0.0, -18.2);
+						glRotatef(90.0, 0.0, 1.0, 0.0);
+						antorcha();
+					glPopMatrix();
+
+					glPushMatrix();						//Antorcha de la guillotina
+						glTranslatef(9.2, 0.0, -20.8);
+						glRotatef(90.0, 0.0, 1.0, 0.0);
+						antorcha();
+					glPopMatrix();
+
+					glPushMatrix();						//Antorcha de la guillotina
+						glTranslatef(11.8, 0.0, -18.2);
+						glRotatef(90.0, 0.0, 1.0, 0.0);
+						antorcha();
+					glPopMatrix();
+
+					glPushMatrix();						//Antorcha de la guillotina
+						glTranslatef(11.8, 0.0, -20.8);
+						glRotatef(90.0, 0.0, 1.0, 0.0);
+						antorcha();
+					glPopMatrix();	
 
 
-				glPushMatrix();						//guillotina
-					glTranslatef(10.0, 0.25, -20.0);
-					glRotatef(-90.0, 0.0, 1.0, 0.0);
-					guillotina();
 				glPopMatrix();
-
-				glPushMatrix();						//suelo para la guillotina
-					glTranslatef(10.5, 0.125, -19.5);
-					glScalef(3.0, 0.25, 3.0);
-					cubo.prisma2(0.0, ny.GLindex, 1);
-				glPopMatrix();
-
-				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(9.2, 0.0, -18.2);
-					glRotatef(90.0, 0.0, 1.0, 0.0);
-					antorcha();
-				glPopMatrix();
-
-				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(9.2, 0.0, -20.8);
-					glRotatef(90.0, 0.0, 1.0, 0.0);
-					antorcha();
-				glPopMatrix();
-
-				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(11.8, 0.0, -18.2);
-					glRotatef(90.0, 0.0, 1.0, 0.0);
-					antorcha();
-				glPopMatrix();
-
-				glPushMatrix();						//Antorcha de la guillotina
-					glTranslatef(11.8, 0.0, -20.8);
-					glRotatef(90.0, 0.0, 1.0, 0.0);
-					antorcha();
-				glPopMatrix();
-
 
 
 			glPopMatrix();
@@ -1511,6 +1529,12 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			play_puertas ^= true;
 			g_fanimacion = false;
 			break;
+
+		case '9':
+			PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
+			break;
+
+			
 
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
