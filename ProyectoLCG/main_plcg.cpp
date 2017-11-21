@@ -11,8 +11,6 @@
 #include "texture.h"
 #include "figuras.h"
 #include "Camera.h"
-#include <Windows.h>
-#include <mmsystem.h>
 
 #include "cmodel/CModel.h"
 //Solo para Visual Studio 2015
@@ -122,7 +120,18 @@ CTexture metal;
 CTexture cadena;
 CTexture cabecera;
 CTexture metal2;
-
+CTexture tarbol;
+CTexture cuadro1;
+CTexture cuadro2;
+CTexture cuadro3;
+CTexture cuadro4;
+CTexture cuadro5;
+CTexture cuadro6;
+CTexture cuadro7;
+CTexture cuadro8;
+CTexture cuadro9;
+CTexture cuadro10;
+CTexture cuadro11;
 
 CTexture tree;
 
@@ -142,9 +151,6 @@ CModel kit;
 CModel llanta;
 CModel casita;
 CModel oldhouse;
-CModel cuchillo;
-CModel carnicero;
-CModel slender;
 
 //variables de animacion
 float angPuerta = 0.0;
@@ -334,6 +340,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	halo.BuildGLTexture();
 	halo.ReleaseImage();
 
+	tarbol.LoadTGA("Texturas/arbolmuerto.tga");
+	tarbol.BuildGLTexture();
+	tarbol.ReleaseImage();
+
 	metal.LoadTGA("Texturas/metal.tga");
 	metal.BuildGLTexture();
 	metal.ReleaseImage();
@@ -350,20 +360,57 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	metal2.BuildGLTexture();
 	metal2.ReleaseImage();
 
+	cuadro1.LoadTGA("Texturas/cuadrol.tga");
+	cuadro1.BuildGLTexture();
+	cuadro1.ReleaseImage();
+
+	cuadro2.LoadTGA("Texturas/cuadro2.tga");
+	cuadro2.BuildGLTexture();
+	cuadro2.ReleaseImage();
+
+	cuadro3.LoadTGA("Texturas/cuadro3.tga");
+	cuadro3.BuildGLTexture();
+	cuadro3.ReleaseImage();
+
+	cuadro4.LoadTGA("Texturas/cuadro4.tga");
+	cuadro4.BuildGLTexture();
+	cuadro4.ReleaseImage();
+
+	cuadro5.LoadTGA("Texturas/cuadro5.tga");
+	cuadro5.BuildGLTexture();
+	cuadro5.ReleaseImage();
+
+	cuadro6.LoadTGA("Texturas/cuadro6.tga");
+	cuadro6.BuildGLTexture();
+	cuadro6.ReleaseImage();
+
+	cuadro7.LoadTGA("Texturas/cuadro7.tga");
+	cuadro7.BuildGLTexture();
+	cuadro7.ReleaseImage();
+
+	cuadro8.LoadTGA("Texturas/cuadro8.tga");
+	cuadro8.BuildGLTexture();
+	cuadro8.ReleaseImage();
+
+	cuadro9.LoadTGA("Texturas/cuadro9.tga");
+	cuadro9.BuildGLTexture();
+	cuadro9.ReleaseImage();
+
+	cuadro10.LoadTGA("Texturas/cuadrol0.tga");
+	cuadro10.BuildGLTexture();
+	cuadro10.ReleaseImage();
+
+	cuadro11.LoadTGA("Texturas/cuadrol1.tga");
+	cuadro11.BuildGLTexture();
+	cuadro11.ReleaseImage();
 	casita._3dsLoad("Dollshouse.3ds");
-
-	carnicero._3dsLoad("carnicero.3ds");
-
-	slender._3dsLoad("modelos/Slenderman.3ds");
-
-	cuchillo._3dsLoad("modelos/cuchillo.3ds");
 
 	oldhouse._3dsLoad("oldhouse/oldhouse.3ds");
 	oldhouse.LoadTextureImages();
 	oldhouse.GLIniTextures();
 	oldhouse.ReleaseTextureImages();
 	
-	objCamera.Position_Camera(5, 1.0, 9.0, 9.0, 0.0f, 0, 0, 1, 0);
+	objCamera.Position_Camera(4,6.0f,2.0f, -4.0,0.0f,0, 0, 1, 0);
 
 	//NEW Crear una lista de dibujo
 	ciudad_display_list = createDL();
@@ -381,6 +428,14 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   {
     glutBitmapCharacter(font, *c); //imprime
   }
+}
+
+void cuadro(GLint textura) {
+	glPushMatrix();
+	glScalef(0.05, 1, -1);
+	cubo.prisma2(textura, textura, 1);
+	glPopMatrix();
+	return;
 }
 
 void EstructuraCasa()
@@ -557,6 +612,24 @@ void EstructuraCasa()
 		cubo.prisma2(0.0, muro.GLindex, 4);
 	glPopMatrix();
 
+	glPushMatrix();
+		glTranslated(12.5, 1.15, -4.4);
+		glRotatef(180, 0, 1, 0);
+		cuadro(cuadro2.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslated(12.5, 1.15, -2.4);
+		glRotatef(180, 0, 1, 0);
+		cuadro(cuadro3.GLindex);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslated(12.5, 1.15, -6.4);
+		glRotatef(180, 0, 1, 0);
+		cuadro(cuadro4.GLindex);
+	glPopMatrix();
+
 	glPushMatrix();	//pared jardin izquierda
 		glTranslatef(0.1, 1.15, -20.5);
 		glScalef(0.2, 2.3, 7.0);
@@ -583,19 +656,6 @@ void EstructuraCasa()
 		glTranslatef(6.4, 2.55, -5.15);
 		glScalef(12.7, 0.5, 10.5);
 		cubo.prisma2(0.0, ny.GLindex, 2);
-	glPopMatrix();
-
-
-	glPushMatrix();
-		glTranslatef(6.4, 2.55, -17.65);
-		glScalef(12.7, 0.5, 12.5);
-		cubo.prisma2(0.0, ny.GLindex, 2);
-	glPopMatrix();
-
-	glPushMatrix();
-		glTranslatef(4.5, 2.55, -10.9);
-		glScalef(9.0, 0.5, 1.0);
-		cubo.prisma2(0.0, ny.GLindex, 1);
 	glPopMatrix();
 
 
@@ -1010,6 +1070,8 @@ void mesa_ovalada()
 	
 }
 
+
+
 void antorcha()
 {
 	glPushMatrix();
@@ -1064,6 +1126,65 @@ void antorcha()
 			glDisable(GL_ALPHA_TEST);
 		glPopMatrix();
 
+	glPopMatrix();
+}
+
+void arbol() {
+	glPushMatrix();
+	glTranslatef(0.0, 2.2, 0.05);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.0, 2.2, -0.08);
+	glRotatef(90, 0.0, 1.0, 0.0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(0.0, 2.2, -0.08);
+	glRotatef(45, 0.0, 1.0, 0.0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(0.0, 2.2, -0.08);
+	glRotatef(180, 0.0, 1.0, 0.0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(0.0, 2.2, -0.08);
+	glRotatef(270, 0.0, 1.0, 0.0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	glDisable(GL_ALPHA_TEST);
+	glPopMatrix();
+
+
+	glPushMatrix();
+	glTranslatef(0.0, 2.2, -0.08);
+	glRotatef(135, 0.0, 1.0, 0.0);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.1);
+	fig2.plano(10, 10, 0.1, tarbol.GLindex, 1);
+	glDisable(GL_ALPHA_TEST);
 	glPopMatrix();
 }
 
@@ -1180,37 +1301,6 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glTranslatef(0.0, 0.0, 10.0);
 			glPushMatrix();
 
-
-				EstructuraCasa();
-				cuartoTortura();
-
-				glPushMatrix();	//cadenas cadenas
-					glEnable(GL_ALPHA_TEST);
-					glAlphaFunc(GL_GREATER, 0.1);
-					glTranslatef(5.0, 1.4, -5.0);			
-					glRotatef(-90.0, 0.0, 0.0, 1.0);
-					fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
-					glDisable(GL_ALPHA_TEST);
-				glPopMatrix();
-
-				glPushMatrix();	//cadenas cadenas
-					glEnable(GL_ALPHA_TEST);
-					glAlphaFunc(GL_GREATER, 0.1);
-					glTranslatef(7.0, 1.4, -5.3);
-					glRotatef(-90.0, 0.0, 0.0, 1.0);
-					fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
-					glDisable(GL_ALPHA_TEST);
-				glPopMatrix();
-
-				glPushMatrix();	//cadenas cadenas
-					glEnable(GL_ALPHA_TEST);
-					glAlphaFunc(GL_GREATER, 0.1);
-					glTranslatef(6.5, 1.4, -5.9);
-					glRotatef(-90.0, 0.0, 0.0, 1.0);
-					fig2.plano(0.4, 1.4, 0.1, cadena.GLindex, 1);
-					glDisable(GL_ALPHA_TEST);
-				glPopMatrix();
-
 				glBegin(GL_LINES);
 				glColor3f(1.0f, 0.0f, 0.0f);
 				glVertex3f(0.0f, 0.0f, 0.0f);
@@ -1229,13 +1319,9 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glVertex3f(0.0f, 0.0f, 200.0f);
 				glEnd();
 
-				/*glPushMatrix();
-					glDisable(GL_LIGHTING);
-					glTranslatef(-1.0, 1.0, 1.0);
-					glScalef(0.001,0.001,0.001);
-					slender.GLrender(NULL, _SHADED, 1.0);
-					glEnable(GL_LIGHTING);
-				glPopMatrix();*/
+
+				EstructuraCasa();
+				cuartoTortura();
 
 				glPushMatrix();						//Silla de la mesa del cuarto de tortura
 					glTranslatef(2.0,0.0,-21.0);
@@ -1276,44 +1362,74 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					antorcha();
 				glPopMatrix();
 
-				glPushMatrix();		//////////////////objetos para el altar de la guillotina
-					glTranslatef(0.0, -0.20, 0.0);
 
-					glPushMatrix();						//guillotina
-						glTranslatef(10.0, 0.20, -20.0);
-						glRotatef(-90.0, 0.0, 1.0, 0.0);
-						guillotina();
-					glPopMatrix();
 
-					glPushMatrix();						//suelo para la guillotina
-						glTranslatef(10.5, 0.125, -19.5);
-						glScalef(3.0, 0.25, 3.0);
-						cubo.prisma2(0.0, ny.GLindex, 1);
-					glPopMatrix();
+				glPushMatrix();						//guillotina
+					glTranslatef(10.0, 0.25, -20.0);
+					glRotatef(-90.0, 0.0, 1.0, 0.0);
+					guillotina();
+				glPopMatrix();
 
-					glPushMatrix();						//Antorcha de la guillotina
-						glTranslatef(9.2, 0.0, -18.2);
-						glRotatef(90.0, 0.0, 1.0, 0.0);
-						antorcha();
-					glPopMatrix();
+				glPushMatrix();						//suelo para la guillotina
+					glTranslatef(10.5, 0.125, -19.5);
+					glScalef(3.0, 0.25, 3.0);
+					cubo.prisma2(0.0, ny.GLindex, 1);
+				glPopMatrix();
 
-					glPushMatrix();						//Antorcha de la guillotina
-						glTranslatef(9.2, 0.0, -20.8);
-						glRotatef(90.0, 0.0, 1.0, 0.0);
-						antorcha();
-					glPopMatrix();
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(9.2, 0.0, -18.2);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
 
-					glPushMatrix();						//Antorcha de la guillotina
-						glTranslatef(11.8, 0.0, -18.2);
-						glRotatef(90.0, 0.0, 1.0, 0.0);
-						antorcha();
-					glPopMatrix();
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(9.2, 0.0, -20.8);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
 
-					glPushMatrix();						//Antorcha de la guillotina
-						glTranslatef(11.8, 0.0, -20.8);
-						glRotatef(90.0, 0.0, 1.0, 0.0);
-						antorcha();
-					glPopMatrix();
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(11.8, 0.0, -18.2);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
+
+				glPushMatrix();						//Antorcha de la guillotina
+					glTranslatef(11.8, 0.0, -20.8);
+					glRotatef(90.0, 0.0, 1.0, 0.0);
+					antorcha();
+				glPopMatrix();
+
+				glPushMatrix(); //arboles
+					glTranslatef(-3.0, 1.7, 5);
+					arbol();
+				glPopMatrix();
+				glPushMatrix();
+					glTranslatef(15.0, 1.7, 5);
+					arbol();
+				glPopMatrix();
+				glPushMatrix();
+					glTranslatef(17.0, 1.7, 10);
+					arbol();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(-2, 1.7, 10);
+					arbol();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(-4, 1.7, 15);
+					arbol();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(19, 1.7, 15);
+					arbol();
+				glPopMatrix();
+				glPushMatrix();
+					glTranslatef(5.0, 1.5, 3);
+					cuadro;
 				glPopMatrix();
 
 
@@ -1571,12 +1687,6 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			play_puertas ^= true;
 			g_fanimacion = false;
 			break;
-
-		case '9':
-			PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
-			break;
-
-			
 
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa

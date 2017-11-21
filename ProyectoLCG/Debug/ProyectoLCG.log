@@ -1,2 +1,4 @@
-﻿  ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\PLCG\ProyectoLCG\Debug\ProyectoLCG.exe
-  ProyectoLCG.vcxproj -> C:\Users\mauricio\Desktop\PLCG\ProyectoLCG\Debug\ProyectoLCG.pdb (Partial PDB)
+﻿  main_plcg.cpp
+c:\users\k322\documents\github\proyectolcg\proyectolcg\main_plcg.cpp(1432): warning C4551: la llamada a la función no tiene lista de argumentos
+  ProyectoLCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\ProyectoLCG.exe
+  ProyectoLCG.vcxproj -> C:\Users\k322\Documents\GitHub\ProyectoLCG\Debug\ProyectoLCG.pdb (Partial PDB)
