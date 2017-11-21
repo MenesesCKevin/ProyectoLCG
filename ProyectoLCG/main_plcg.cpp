@@ -23,40 +23,76 @@ static GLuint ciudad_display_list;	//Display List for the Monito
 
 
 //NEW// Keyframes
-float posX =0, posY = 2.5, posZ =-3.5, rotRodIzq = 0;
-float giroMonito = 0;
-float movBrazoDer = 0.0;
+FILE *archsal;
 
-#define MAX_FRAMES 9
+float posX = 0.0f;
+float posY = 0.0f;
+float posZ = 0.0f;
+float viewX = 0.0f;
+float angdown = 0.0f;
+float viewY = 0.0f;
+float viewZ = 0.0f;
+float upX = 0.0f;
+float upY = 0.0f;
+float upZ = 0.0f;
+float angMedi3 = 0.0f;
+float angAnu1 = 0.0f;
+float angAnu2 = 0.0f;
+float angAnu3 = 0.0f;
+float angMen1 = 0.0f;
+float angMen2 = 0.0f;
+float angMen3 = 0.0f;
+
+#define MAX_FRAMES 60
 int i_max_steps = 90;
 int i_curr_steps = 0;
+
 typedef struct _frame
 {
 	//Variables para GUARDAR Key Frames
-	float posX;		//Variable para PosicionX
-	float posY;		//Variable para PosicionY
-	float posZ;		//Variable para PosicionZ
-	float incX;		//Variable para IncrementoX
-	float incY;		//Variable para IncrementoY
-	float incZ;		//Variable para IncrementoZ
-	float rotRodIzq;
-	float rotInc;
-	float giroMonito;
-	float giroMonitoInc;
-	float movBrazoDer;
-	float movBrazoDerInc;
-
-	
+	float posX;		//Variable para camara
+	float posXInc;		//Variable para camara
+	float posY;		//Variable para camara
+	float posYInc;		//Variable para camara
+	float posZ;		//Variable para camara
+	float posZInc;		//Variable para camara
+	float viewX;
+	float viewXInc;
+	float angdown;
+	float angdownInc;
+	float viewY;
+	float viewYInc;
+	float viewZ;
+	float viewZInc;
+	float upX;
+	float upXInc;
+	float upY;
+	float upYInc;
+	float upZ;  //variables camara 
+	float upZInc;
+	float angMedi3;
+	float angMedi3Inc;
+	float angAnu1;
+	float angAnu1Inc;
+	float angAnu2;
+	float angAnu2Inc;
+	float angAnu3;
+	float angAnu3Inc;
+	float angMen1;
+	float angMen1Inc;
+	float angMen2;
+	float angMen2Inc;
+	float angMen3;
+	float angMen3Inc;
 }FRAME;
 
 FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex=5;			//introducir datos
+int FrameIndex=1;			//introducir datos
 bool play=false;
 int playIndex=0;
-
 bool play_puertas = false;
 bool play_murcielagos = false;
-
+bool recorrido = false;
 
 //NEW//////////////////NEW//////////////////NEW//////////////////NEW////////////////
 
@@ -148,10 +184,14 @@ CFiguras cubo;
 CFiguras cilindro;
 
 //Figuras de 3D Studio
-CModel kit;
-CModel llanta;
-CModel casita;
-CModel oldhouse;
+
+CModel slender;
+CModel Bed;
+CModel eyeball;
+CModel mano;
+CModel skeleton;
+CModel skull;
+CModel wolf_3ds;
 
 //variables de animacion
 float angMurcielago = 0.0;
@@ -188,16 +228,28 @@ void saveFrame(void)
 {
 
 	printf("frameindex %d\n", FrameIndex);
-
-	KeyFrame[FrameIndex].posX = posX;
-	KeyFrame[FrameIndex].posY = posY;
-	KeyFrame[FrameIndex].posZ = posZ;
-
-	KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-	KeyFrame[FrameIndex].giroMonito = giroMonito;
-	KeyFrame[FrameIndex].movBrazoDer = movBrazoDer;
-
+	archsal = fopen("salida.txt", "a");
+	KeyFrame[FrameIndex].posX = objCamera.mPos.x;
+	KeyFrame[FrameIndex].posY = objCamera.mPos.y;
+	KeyFrame[FrameIndex].posZ = objCamera.mPos.z;
+	KeyFrame[FrameIndex].viewX = objCamera.mView.x;
+	KeyFrame[FrameIndex].angdown = g_lookupdown;
+	KeyFrame[FrameIndex].viewY = objCamera.mView.y;
+	KeyFrame[FrameIndex].viewZ = objCamera.mView.z;
+	KeyFrame[FrameIndex].upX = objCamera.mUp.x;
+	KeyFrame[FrameIndex].upY = objCamera.mUp.y;
+	KeyFrame[FrameIndex].upZ = objCamera.mUp.z;
+	KeyFrame[FrameIndex].angMedi3 = angMedi3;
+	KeyFrame[FrameIndex].angAnu1 = angAnu1;
+	KeyFrame[FrameIndex].angAnu2 = angAnu2;
+	KeyFrame[FrameIndex].angAnu3 = angAnu3;
+	KeyFrame[FrameIndex].angMen1 = angMen1;
+	KeyFrame[FrameIndex].angMen2 = angMen2;
+	KeyFrame[FrameIndex].angMen3 = angMen3;
+	fprintf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", posX, posY, posZ, viewX, angdown, viewY, viewZ, upX,
+		upY, upZ, angMedi3, angMen1, angMen2, angMen3, angAnu1, angAnu2, angAnu3);
 	FrameIndex++;
+	fclose(archsal);
 }
 
 void resetElements(void)
@@ -205,26 +257,65 @@ void resetElements(void)
 	posX = KeyFrame[0].posX;
 	posY = KeyFrame[0].posY;
 	posZ = KeyFrame[0].posZ;
-
-	rotRodIzq = KeyFrame[0].rotRodIzq;
-	giroMonito = KeyFrame[0].giroMonito;
-	movBrazoDer = KeyFrame[0].movBrazoDer;
-
+	viewX = KeyFrame[0].viewX;
+	angdown = KeyFrame[0].angdown;
+	viewY = KeyFrame[0].viewY;
+	viewZ = KeyFrame[0].viewZ;
+	upX = KeyFrame[0].upX;
+	upY = KeyFrame[0].upY;
+	upZ = KeyFrame[0].angMedi3;
+	angMedi3 = KeyFrame[0].angMedi3;
+	angAnu1 = KeyFrame[0].angAnu1;
+	angAnu2 = KeyFrame[0].angAnu2;
+	angAnu3 = KeyFrame[0].angAnu3;
+	angMen1 = KeyFrame[0].angMen1;
+	angMen2 = KeyFrame[0].angMen2;
+	angMen3 = KeyFrame[0].angMen3;
 }
+
 
 void interpolation(void)
 {
-	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
-	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
-	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
-
-	KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotRodIzq - KeyFrame[playIndex].rotRodIzq) / i_max_steps;
-	KeyFrame[playIndex].giroMonitoInc = (KeyFrame[playIndex + 1].giroMonito - KeyFrame[playIndex].giroMonito) / i_max_steps;
-	KeyFrame[playIndex].movBrazoDerInc = (KeyFrame[playIndex + 1].movBrazoDer - KeyFrame[playIndex].movBrazoDer) / i_max_steps;
-
+	KeyFrame[playIndex].posXInc = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
+	KeyFrame[playIndex].posYInc = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
+	KeyFrame[playIndex].posZInc = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
+	KeyFrame[playIndex].viewXInc = (KeyFrame[playIndex + 1].viewX - KeyFrame[playIndex].viewX) / i_max_steps;
+	KeyFrame[playIndex].angdownInc = (KeyFrame[playIndex + 1].angdown - KeyFrame[playIndex].angdown) / i_max_steps;
+	KeyFrame[playIndex].viewYInc = (KeyFrame[playIndex + 1].viewY - KeyFrame[playIndex].viewY) / i_max_steps;
+	KeyFrame[playIndex].viewZInc = (KeyFrame[playIndex + 1].viewZ - KeyFrame[playIndex].viewZ) / i_max_steps;
+	KeyFrame[playIndex].upXInc = (KeyFrame[playIndex + 1].upX - KeyFrame[playIndex].upX) / i_max_steps;
+	KeyFrame[playIndex].upYInc = (KeyFrame[playIndex + 1].upY - KeyFrame[playIndex].upY) / i_max_steps;
+	KeyFrame[playIndex].upZInc = (KeyFrame[playIndex + 1].upZ - KeyFrame[playIndex].upZ) / i_max_steps;
+	KeyFrame[playIndex].angMedi3Inc = (KeyFrame[playIndex + 1].angMedi3 - KeyFrame[playIndex].angMedi3) / i_max_steps;
+	KeyFrame[playIndex].angMen1Inc = (KeyFrame[playIndex + 1].angMen1 - KeyFrame[playIndex].angMen1) / i_max_steps;
+	KeyFrame[playIndex].angMen2Inc = (KeyFrame[playIndex + 1].angMen2 - KeyFrame[playIndex].angMen2) / i_max_steps;
+	KeyFrame[playIndex].angMen3Inc = (KeyFrame[playIndex + 1].angMen3 - KeyFrame[playIndex].angMen3) / i_max_steps;
+	KeyFrame[playIndex].angAnu1Inc = (KeyFrame[playIndex + 1].angAnu1 - KeyFrame[playIndex].angAnu1) / i_max_steps;
+	KeyFrame[playIndex].angAnu2Inc = (KeyFrame[playIndex + 1].angAnu2 - KeyFrame[playIndex].angAnu2) / i_max_steps;
+	KeyFrame[playIndex].angAnu3Inc = (KeyFrame[playIndex + 1].angAnu3 - KeyFrame[playIndex].angAnu3) / i_max_steps;
 }
 
-
+void cargaEstructura() {
+	int final;
+	FrameIndex = 0;
+	archsal = fopen("salida.txt", "r");
+	final = fscanf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", &KeyFrame[FrameIndex].posX,
+		&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX, &KeyFrame[FrameIndex].angdown,
+		&KeyFrame[FrameIndex].viewY, &KeyFrame[FrameIndex].viewZ, &KeyFrame[FrameIndex].upX,
+		&KeyFrame[FrameIndex].upY, &KeyFrame[FrameIndex].upZ, &KeyFrame[FrameIndex].angMedi3,
+		&KeyFrame[FrameIndex].angMen1, &KeyFrame[FrameIndex].angMen2, &KeyFrame[FrameIndex].angMen3,
+		&KeyFrame[FrameIndex].angAnu1, &KeyFrame[FrameIndex].angAnu2, &KeyFrame[FrameIndex].angAnu3);
+	while (final != EOF) {
+		final = fscanf(archsal, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", &KeyFrame[FrameIndex].posX,
+			&KeyFrame[FrameIndex].posY, &KeyFrame[FrameIndex].posZ, &KeyFrame[FrameIndex].viewX, &KeyFrame[FrameIndex].angdown,
+			&KeyFrame[FrameIndex].viewY, &KeyFrame[FrameIndex].viewZ, &KeyFrame[FrameIndex].upX,
+			&KeyFrame[FrameIndex].upY, &KeyFrame[FrameIndex].upZ, &KeyFrame[FrameIndex].angMedi3,
+			&KeyFrame[FrameIndex].angMen1, &KeyFrame[FrameIndex].angMen2, &KeyFrame[FrameIndex].angMen3,
+			&KeyFrame[FrameIndex].angAnu1, &KeyFrame[FrameIndex].angAnu2, &KeyFrame[FrameIndex].angAnu3);
+		FrameIndex++;
+	}
+	fclose(archsal);
+}
 
 
 
@@ -411,18 +502,30 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	cuadro11.LoadTGA("Texturas/cuadrol1.tga");
 	cuadro11.BuildGLTexture();
 	cuadro11.ReleaseImage();
-	casita._3dsLoad("Dollshouse.3ds");
 
-
-	oldhouse._3dsLoad("oldhouse/oldhouse.3ds");
-	oldhouse.LoadTextureImages();
-	oldhouse.GLIniTextures();
-	oldhouse.ReleaseTextureImages();
 	
 	objCamera.Position_Camera(4,6.0f,2.0f, -4.0,0.0f,0, 0, 1, 0);
 
-	//NEW Crear una lista de dibujo
-	ciudad_display_list = createDL();
+	for (int i = 0; i<MAX_FRAMES; i++)
+	{
+		KeyFrame[i].posX = 0;
+		KeyFrame[i].posY = 0;
+		KeyFrame[i].posZ = 0;
+		KeyFrame[i].viewX = 0;
+		KeyFrame[i].angdown = 0;
+		KeyFrame[i].viewY = 0;
+		KeyFrame[i].viewZ = 0;
+		KeyFrame[i].upX = 1;
+		KeyFrame[i].upY = 0;
+		KeyFrame[i].upZ = 0;
+		KeyFrame[i].angMedi3 = 0;
+		KeyFrame[i].angMen1 = 0;
+		KeyFrame[i].angMen2 = 0;
+		KeyFrame[i].angMen3 = 0;
+		KeyFrame[i].angAnu1 = 0;
+		KeyFrame[i].angAnu2 = 0;
+		KeyFrame[i].angAnu3 = 0;
+	}
 
 
 }
@@ -1293,13 +1396,20 @@ void display ( void )   // Creamos la funcion donde se dibuja
 	
 	
 	glPushMatrix();
+	if(recorrido){
+		glRotatef(angdown,1.0f,0,0);
 
+		gluLookAt(	posX,  posY,  posZ,	
+					viewX, viewY, viewZ,	
+					upX,upY,upZ);
+	}
+	else{
 	glRotatef(g_lookupdown,1.0f,0,0);
 
 		gluLookAt(	objCamera.mPos.x,  objCamera.mPos.y,  objCamera.mPos.z,	
 					objCamera.mView.x, objCamera.mView.y, objCamera.mView.z,	
 					objCamera.mUp.x,   objCamera.mUp.y,   objCamera.mUp.z);
-
+	}
 		glPushMatrix();		
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
@@ -1576,6 +1686,7 @@ void animacion()
 	//Movimiento de las puertas
 	if (play)
 	{
+		recorrido = true;
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
 		{
 			playIndex++;
@@ -1584,6 +1695,7 @@ void animacion()
 				printf("termina anim\n");
 				playIndex = 0;
 				play = false;
+				recorrido = false;
 			}
 			else //Next frame interpolations
 			{
@@ -1595,14 +1707,24 @@ void animacion()
 		else
 		{
 			//Draw animation
-			posX += KeyFrame[playIndex].incX;
-			posY += KeyFrame[playIndex].incY;
-			posZ += KeyFrame[playIndex].incZ;
-
-			rotRodIzq += KeyFrame[playIndex].rotInc;
-			giroMonito += KeyFrame[playIndex].giroMonitoInc;
-			movBrazoDer += KeyFrame[playIndex].movBrazoDerInc;
-
+			//Draw animation
+				posX += KeyFrame[playIndex].posXInc;
+				posY += KeyFrame[playIndex].posYInc;
+				posZ += KeyFrame[playIndex].posZInc;
+				viewX += KeyFrame[playIndex].viewXInc;
+				angdown += KeyFrame[playIndex].angdownInc;
+				viewY += KeyFrame[playIndex].viewYInc;
+				viewZ += KeyFrame[playIndex].viewZInc;
+				upX += KeyFrame[playIndex].upXInc;
+				upY += KeyFrame[playIndex].upYInc;
+				upZ += KeyFrame[playIndex].upZInc;
+				angMedi3 += KeyFrame[playIndex].angMedi3Inc;
+				angMen1 += KeyFrame[playIndex].angMen1Inc;
+				angMen2 += KeyFrame[playIndex].angMen2Inc;
+				angMen3 += KeyFrame[playIndex].angMen3Inc;
+				angAnu1 += KeyFrame[playIndex].angAnu1Inc;
+				angAnu2 += KeyFrame[playIndex].angAnu2Inc;
+				angAnu3 += KeyFrame[playIndex].angAnu3Inc;
 			i_curr_steps++;
 		}
 
@@ -1705,35 +1827,35 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case 'y':						
 		case 'Y':
-			posZ++;
+			//posZ++;
 			//printf("%f \n", posZ);
 			break;
 
 		case 'g':						
 		case 'G':
-			posX--;
+			//posX--;
 			//printf("%f \n", posX);
 			break;
 
 		case 'h':						
 		case 'H':
-			posZ--;
+			//posZ--;
 			//printf("%f \n", posZ);
 			break;
 
 		case 'j':						
 		case 'J':
-			posX++;
+			//posX++;
 			//printf("%f \n", posX);
 			break;
 
 		case 'b':						
-			rotRodIzq++;
+			//rotRodIzq++;
 			//printf("%f \n", rotRodIzq);
 			break;
 
 		case 'B':						
-			rotRodIzq--;
+			//rotRodIzq--;
 			//printf("%f \n", rotRodIzq);
 			break;
 
@@ -1762,28 +1884,22 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
   glutPostRedisplay();
 }
 
-void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas especiales (arrow keys)
+void arrow_keys(int a_keys, int x, int y)  // Funcion para manejo de teclas especiales (arrow keys)
 {
-  switch ( a_keys ) {
+	switch (a_keys) {
 	case GLUT_KEY_PAGE_UP:
-		//pos_camY -= 0.5f;
-		//pos_cam.y += 0.5f;
-		//eye_cam.y += 0.5f;
 		objCamera.UpDown_Camera(CAMERASPEED);
 		break;
 
 	case GLUT_KEY_PAGE_DOWN:
-		//pos_camY += 0.5f;
-		//pos_cam.y -= 0.5f;
-		//eye_cam.y -= 0.5f;
 		objCamera.UpDown_Camera(-CAMERASPEED);
 		break;
 
-    case GLUT_KEY_UP:     // Presionamos tecla ARRIBA...
+	case GLUT_KEY_UP:     // Presionamos tecla ARRIBA...
 		g_lookupdown -= 1.0f;
 		break;
 
-    case GLUT_KEY_DOWN:               // Presionamos tecla ABAJO...
+	case GLUT_KEY_DOWN:               // Presionamos tecla ABAJO...
 		g_lookupdown += 1.0f;
 		break;
 
@@ -1792,13 +1908,13 @@ void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas e
 		break;
 
 	case GLUT_KEY_RIGHT:
-		objCamera.Rotate_View( CAMERASPEED);
+		objCamera.Rotate_View(CAMERASPEED);
 		break;
 
-    default:
+	default:
 		break;
-  }
-  glutPostRedisplay();
+	}
+	glutPostRedisplay();
 }
 
 
@@ -1816,6 +1932,9 @@ int main ( int argc, char** argv )   // Main Function
   glutReshapeFunc     ( reshape );	//Indicamos a Glut función en caso de cambio de tamano
   glutKeyboardFunc    ( keyboard );	//Indicamos a Glut función de manejo de teclado
   glutSpecialFunc     ( arrow_keys );	//Otras
+  archsal = fopen("salida.txt", "r");
+  if(archsal != NULL)
+  cargaEstructura();
   glutIdleFunc		  ( animacion );
   glutMainLoop();          // 
 
