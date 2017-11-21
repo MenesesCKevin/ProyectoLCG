@@ -1748,6 +1748,9 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			g_fanimacion = false;
 			play_murcielagos ^= true;
 			break;
+		case '9':
+			PlaySound(TEXT("audio/terror.wav"), NULL, SND_ASYNC);
+			break;
 
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
