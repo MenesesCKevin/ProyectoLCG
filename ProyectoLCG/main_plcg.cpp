@@ -57,6 +57,7 @@ bool play=false;
 int playIndex=0;
 
 bool play_puertas = false;
+bool play_murcielagos = false;
 
 
 //NEW//////////////////NEW//////////////////NEW//////////////////NEW////////////////
@@ -147,6 +148,8 @@ CModel carnicero;
 CModel slender;
 
 //variables de animacion
+float angMurcielago = 0.0;
+float murcielagos = 0.0;
 float angPuerta = 0.0;
 float angRot = 0.0;
 float movKitX = 0.0;
@@ -171,6 +174,9 @@ bool Puerta1 = true;
 bool Puerta2 = false;
 bool Puerta3 = false;
 bool Puerta4 = false;
+
+bool murcielago1 = true;
+bool murcielago2 = false;
 
 void saveFrame(void)
 {
@@ -352,11 +358,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 	casita._3dsLoad("Dollshouse.3ds");
 
-	carnicero._3dsLoad("carnicero.3ds");
-
-	slender._3dsLoad("modelos/Slenderman.3ds");
-
-	cuchillo._3dsLoad("modelos/cuchillo.3ds");
+	slender._3dsLoad("modelos/VAMP_BAT.3DS");
 
 	oldhouse._3dsLoad("oldhouse/oldhouse.3ds");
 	oldhouse.LoadTextureImages();
@@ -1229,13 +1231,25 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glVertex3f(0.0f, 0.0f, 200.0f);
 				glEnd();
 
-				/*glPushMatrix();
-					glDisable(GL_LIGHTING);
-					glTranslatef(-1.0, 1.0, 1.0);
-					glScalef(0.001,0.001,0.001);
-					slender.GLrender(NULL, _SHADED, 1.0);
-					glEnable(GL_LIGHTING);
-				glPopMatrix();*/
+
+				glPushMatrix();
+				glRotatef(90.0, 0.0, 1.0, 0.0);
+					glPushMatrix();								//Muercielagos
+						glTranslatef(-6.0, 8.0, 5.0 + murcielagos);
+						glRotatef(angMurcielago, 0.0, 1.0, 0.0);
+						glScalef(8.0, 8.0, 8.0);
+						slender.GLrender(NULL, _SHADED, 1.0);
+					glPopMatrix();
+
+					glPushMatrix();
+						glTranslatef(-6.0, 9.0, 5.0 - murcielagos);
+						glRotatef(180+angMurcielago, 0.0, 1.0, 0.0);
+						glScalef(8.0, 8.0, 8.0);
+						slender.GLrender(NULL, _SHADED, 1.0);
+					glPopMatrix();
+				glPopMatrix();
+
+
 
 				glPushMatrix();						//Silla de la mesa del cuarto de tortura
 					glTranslatef(2.0,0.0,-21.0);
@@ -1361,46 +1375,73 @@ void animacion()
 		}
 	}
 
-	if (play_puertas)
-	{
-		if (Puerta1)
+		if (play_puertas)
 		{
-			angPuerta--;
-			if (angPuerta <= -45)
+			if (Puerta1)
 			{
-				Puerta1 = false;
-				Puerta2 = true;
+				angPuerta--;
+				if (angPuerta <= -45)
+				{
+					Puerta1 = false;
+					Puerta2 = true;
+				}
 			}
-		}
-		if (Puerta2)
-		{
-			angPuerta--;
-			if (angPuerta <= -90)
+			if (Puerta2)
 			{
-				Puerta2 = false;
-				Puerta3 = true;
+				angPuerta--;
+				if (angPuerta <= -90)
+				{
+					Puerta2 = false;
+					Puerta3 = true;
 
+				}
 			}
-		}
-		if (Puerta3)
-		{
-			angPuerta++;
-			if (angPuerta >= -45)
+			if (Puerta3)
 			{
-				Puerta3 = false;
-				Puerta4 = true;
+				angPuerta++;
+				if (angPuerta >= -45)
+				{
+					Puerta3 = false;
+					Puerta4 = true;
+				}
 			}
-		}
-		if (Puerta4)
-		{
-			angPuerta++;
-			if (angPuerta >= 0)
+			if (Puerta4)
 			{
-				Puerta4 = false;
-				Puerta1 = true;
+				angPuerta++;
+				if (angPuerta >= 0)
+				{
+					Puerta4 = false;
+					Puerta1 = true;
+				}
 			}
 		}
-	}
+
+		if (play_murcielagos)
+		{
+			if (murcielago1)
+			{
+				murcielagos-=0.2;
+				if (murcielagos <= -15)
+				{
+					angMurcielago += 180;
+					murcielago1 = false;
+					murcielago2 = true;
+				}
+			}
+			if (murcielago2)
+			{
+				murcielagos+=0.2;
+				if (murcielagos >= 15)
+				{
+					angMurcielago -= 180;
+					murcielago1 = true;
+					murcielago2 = false;
+
+				}
+			}
+		}
+
+
 
 
 	//Movimiento de las puertas
@@ -1570,6 +1611,13 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		case '1':
 			play_puertas ^= true;
 			g_fanimacion = false;
+			play_murcielagos = false;
+			break;
+
+		case '2':
+			play_puertas = false;
+			g_fanimacion = false;
+			play_murcielagos ^= true;
 			break;
 
 		case '9':
